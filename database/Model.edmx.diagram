@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c04915f32d714cd39e6dcc1ad7af5870" Name="Diagram1">
+        <EntityTypeShape EntityType="Model.analyzer" Width="1.5" PointX="8.25" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.analyzer_job" Width="1.5" PointX="10.5" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.check_for_insurance" Width="1.5" PointX="9" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.insurance_company" Width="1.5" PointX="9" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.login" Width="1.5" PointX="0.75" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.login_history" Width="1.5" PointX="3" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.order" Width="1.5" PointX="5.25" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.order_status" Width="1.5" PointX="3" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.service" Width="1.5" PointX="3" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.service_rendered" Width="1.5" PointX="10.5" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.service_status" Width="1.5" PointX="3" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.user" Width="1.5" PointX="6" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.user_confidential_data" Width="1.5" PointX="8.25" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.user_contact" Width="1.5" PointX="8.25" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.user_role" Width="1.5" PointX="3.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.friendship" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.issued_invoices" Width="1.5" PointX="11.25" PointY="11.375" IsExpanded="true" />
+        <AssociationConnector Association="Model.FK_analyzer_job_analyzer" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_analyzer_user" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_service_rendered_analyzer" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_issued_invoices_check_for_insurance" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_issued_invoices_insurance_company" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_login_history_login" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_user_login" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_order_order_status" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_order_service" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_order_service_status" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_service_rendered_user" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_issued_invoices_user" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_user_confidential_data_user" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_user_contact_user" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_user_user_role" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.service_set" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
