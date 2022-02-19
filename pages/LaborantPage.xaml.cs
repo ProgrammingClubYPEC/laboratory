@@ -1,5 +1,6 @@
 ﻿using laboratory.common;
 using laboratory.database;
+using laboratory.widgets;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -33,16 +34,14 @@ namespace laboratory.pages
                     return;
 
                 _currentWidget = value;
-                OnPropertyChanged("CurrentWidget");
+                Card.Content = _currentWidget;
             }
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private Window parentWindow;
+        private ReportGenerationWidget reportGenerationWidget;
+        private IntakeBiomaterialsWidget biomaterialsWidget;
+
         public List<ButtonAction> LaborantActions;
 
         public LaborantPage(user owner, Window parent)
@@ -54,16 +53,12 @@ namespace laboratory.pages
             LaborantActions = new List<ButtonAction>();
             LaborantActions.Add(new ButtonAction("Формирование отчетов", "business_report.png", ReportGeneration));
             LaborantActions.Add(new ButtonAction("Прием биоматериалов", "document.png", IntakeBiomaterials));
+
+            reportGenerationWidget = new ReportGenerationWidget(owner, this);
+            biomaterialsWidget = new IntakeBiomaterialsWidget(owner, this);
         }
 
-        private void ReportGeneration()
-        {
-            MessageBox.Show("report generaiton");
-        }
-
-        private void IntakeBiomaterials()
-        {
-            MessageBox.Show("intake biomaterials");
-        }
+        private void ReportGeneration() => CurrentWidget = reportGenerationWidget;
+        private void IntakeBiomaterials() => CurrentWidget = biomaterialsWidget;
     }
 }

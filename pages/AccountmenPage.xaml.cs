@@ -1,5 +1,6 @@
 ﻿using laboratory.common;
 using laboratory.database;
+using laboratory.widgets;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -33,16 +34,14 @@ namespace laboratory.pages
                     return;
 
                 _currentWidget = value;
-                OnPropertyChanged("CurrentWidget");
+                Card.Content = _currentWidget;
             }
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private Window parentWindow;
+        private ViewReportWidget viewReportWidget;
+        private InvoiceGenerationWidget invoiceGenerationWidget;
+
         public List<ButtonAction> AccountmenActions;
 
         public AccountmenPage(user owner, Window parent)
@@ -54,16 +53,12 @@ namespace laboratory.pages
             AccountmenActions = new List<ButtonAction>();
             AccountmenActions.Add(new ButtonAction("Просмотр отчетов", "business_report.png", ViewReport));
             AccountmenActions.Add(new ButtonAction("Формирование счета", "document.png", InvoiceGeneration));
+
+            viewReportWidget = new ViewReportWidget(owner, this);
+            invoiceGenerationWidget = new InvoiceGenerationWidget(owner, this);
         }
 
-        private void ViewReport()
-        {
-            MessageBox.Show("view report");
-        }
-
-        private void InvoiceGeneration()
-        {
-            MessageBox.Show("invoice generation");
-        }
+        private void ViewReport() => CurrentWidget = viewReportWidget;
+        private void InvoiceGeneration() => CurrentWidget = invoiceGenerationWidget;
     }
 }

@@ -69,6 +69,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="common\ButtonAction.cs" />
+    <Compile Include="common\ICommonPage.cs" />
     <Compile Include="common\UserConventer.cs" />
     <Compile Include="pages\AccountmenPage.xaml.cs">
       <DependentUpon>AccountmenPage.xaml</DependentUpon>
@@ -82,8 +83,29 @@
     <Compile Include="pages\PatientPage.xaml.cs">
       <DependentUpon>PatientPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="widgets\ConsumableDataProcessingWidget.xaml.cs">
+      <DependentUpon>ConsumableDataProcessingWidget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="widgets\IntakeBiomaterialsWidget.xaml.cs">
+      <DependentUpon>IntakeBiomaterialsWidget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="widgets\InvoiceGenerationWidget.xaml.cs">
+      <DependentUpon>InvoiceGenerationWidget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="widgets\ReportGenerationWidget.xaml.cs">
+      <DependentUpon>ReportGenerationWidget.xaml</DependentUpon>
+    </Compile>
     <Compile Include="widgets\UserCardWidget.xaml.cs">
       <DependentUpon>UserCardWidget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="widgets\ViewAuthorizationHistoryWidget.xaml.cs">
+      <DependentUpon>ViewAuthorizationHistoryWidget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="widgets\ViewBiomaterialsWidget.xaml.cs">
+      <DependentUpon>ViewBiomaterialsWidget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="widgets\ViewReportWidget.xaml.cs">
+      <DependentUpon>ViewReportWidget.xaml</DependentUpon>
     </Compile>
     <Page Include="LoginWindow.xaml">
       <SubType>Designer</SubType>
@@ -187,7 +209,35 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="widgets\ConsumableDataProcessingWidget.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="widgets\IntakeBiomaterialsWidget.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="widgets\InvoiceGenerationWidget.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="widgets\ReportGenerationWidget.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="widgets\UserCardWidget.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="widgets\ViewAuthorizationHistoryWidget.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="widgets\ViewBiomaterialsWidget.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="widgets\ViewReportWidget.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

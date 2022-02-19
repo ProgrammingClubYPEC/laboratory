@@ -10,8 +10,15 @@
         Title="Лаборатория №20" 
         Height="600" Width="800"
         MinHeight="500" MinWidth="600"
+        WindowStartupLocation="CenterScreen"
         Closing="Window_Closing">
     <Grid Background="#FFDEDEDE">
+        <Frame x:Name="page"
+               NavigationUIVisibility="Hidden"
+               Margin="50, 0, 0, 0"
+               Content="{Binding CurrentPage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+               />
+        
         <Grid x:Name="menu" Width="50" MinHeight="500"
               HorizontalAlignment="Left" Background="#498C51">
             <StackPanel>
@@ -96,11 +103,5 @@
                 </Button>
             </StackPanel>
         </Grid>
-
-        <Frame x:Name="page"
-               NavigationUIVisibility="Hidden"
-               Margin="50, 0, 0, 0"
-               Content="{Binding CurrentPage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
     </Grid>
 </Window>

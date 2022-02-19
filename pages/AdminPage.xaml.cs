@@ -1,5 +1,6 @@
 ﻿using laboratory.common;
 using laboratory.database;
+using laboratory.widgets;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -33,16 +34,15 @@ namespace laboratory.pages
                     return;
 
                 _currentWidget = value;
-                OnPropertyChanged("CurrentWidget");
+                Card.Content = _currentWidget;
             }
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private Window parentWindow;
+        private ViewReportWidget viewReportWidget;
+        private ConsumableDataProcessingWidget consumableDataProcessingWidget;
+        private ViewAuthorizationHistoryWidget viewAuthorizationHistoryWidget;
+
         public List<ButtonAction> AdminActions;
 
         public AdminPage(user owner, Window parent)
@@ -55,21 +55,15 @@ namespace laboratory.pages
             AdminActions.Add(new ButtonAction("Просмотр отчетов", "business_report.png", ViewReport));
             AdminActions.Add(new ButtonAction("Просмотр расходных материалов", "warehouse.png", ConsumableDataProcessing));
             AdminActions.Add(new ButtonAction("Просмотр истории авторизации", "history.png", ViewAuthorizationHistory));
+
+            viewReportWidget = new ViewReportWidget(owner, this);
+            consumableDataProcessingWidget = new ConsumableDataProcessingWidget(owner, this);
+            viewAuthorizationHistoryWidget = new ViewAuthorizationHistoryWidget(owner, this);
         }
 
-        private void ViewReport()
-        {
-            MessageBox.Show("view report");
-        }
+        private void ViewReport() => CurrentWidget = viewReportWidget;
+        private void ConsumableDataProcessing() => CurrentWidget = consumableDataProcessingWidget;
+        private void ViewAuthorizationHistory() => CurrentWidget = viewAuthorizationHistoryWidget;
 
-        private void ConsumableDataProcessing()
-        {
-            MessageBox.Show("consumable data processing");
-        }
-
-        private void ViewAuthorizationHistory()
-        {
-            MessageBox.Show("view authorization history");
-        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using laboratory.common;
 using laboratory.database;
+using laboratory.widgets;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -33,16 +34,12 @@ namespace laboratory.pages
                     return;
 
                 _currentWidget = value;
-                OnPropertyChanged("CurrentWidget");
+                Card.Content = _currentWidget;
             }
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private Window parentWindow;
+        private ViewBiomaterialsWidget viewBiomaterialsWidget;
         public List<ButtonAction> PatientActions;
 
         public PatientPage(user owner, Window parent)
@@ -53,11 +50,11 @@ namespace laboratory.pages
 
             PatientActions = new List<ButtonAction>();
             PatientActions.Add(new ButtonAction("Просмотр биоматериалов", "document.png", ViewBiomaterials));
+
+            viewBiomaterialsWidget = new ViewBiomaterialsWidget(owner, this);
         }
 
-        private void ViewBiomaterials()
-        {
-            MessageBox.Show("view biomaterials");
-        }
+        private void ViewBiomaterials() => CurrentWidget = viewBiomaterialsWidget;
+
     }
 }
