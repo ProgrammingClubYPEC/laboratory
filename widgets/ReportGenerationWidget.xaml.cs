@@ -28,7 +28,12 @@ namespace laboratory.widgets
         {
             InitializeComponent();
             DataContext = owner;
-            parentPage = parent;
+            ParentPage = parent;
+        }
+
+        public void UpdateData()
+        {
+            throw new NotImplementedException();
         }
     }
 }

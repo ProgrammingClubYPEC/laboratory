@@ -9,6 +9,8 @@
       Title="LaborantPage">
 
     <Grid>
-        <Frame x:Name="Card"/>
+        <Frame x:Name="Card"
+               ScrollViewer.VerticalScrollBarVisibility="Visible"
+               />
     </Grid>
 </Page>
