@@ -1,5 +1,8 @@
-﻿using System;
+﻿using laboratory.common;
+using laboratory.database;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +23,47 @@ namespace laboratory.pages
     /// </summary>
     public partial class AccountmenPage : Page
     {
-        public AccountmenPage()
+        private Page _currentWidget;
+        public Page CurrentWidget
+        {
+            get { return _currentWidget; }
+            set
+            {
+                if (_currentWidget == value)
+                    return;
+
+                _currentWidget = value;
+                OnPropertyChanged("CurrentWidget");
+            }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private Window parentWindow;
+        public List<ButtonAction> AccountmenActions;
+
+        public AccountmenPage(user owner, Window parent)
         {
             InitializeComponent();
+            DataContext = owner;
+            parentWindow = parent;
+
+            AccountmenActions = new List<ButtonAction>();
+            AccountmenActions.Add(new ButtonAction("Просмотр отчетов", "business_report.png", ViewReport));
+            AccountmenActions.Add(new ButtonAction("Формирование счета", "document.png", InvoiceGeneration));
+        }
+
+        private void ViewReport()
+        {
+            MessageBox.Show("view report");
+        }
+
+        private void InvoiceGeneration()
+        {
+            MessageBox.Show("invoice generation");
         }
     }
 }

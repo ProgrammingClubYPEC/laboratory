@@ -5,24 +5,5 @@
              xmlns:common="clr-namespace:laboratory.common"
              StartupUri="/LoginWindow.xaml">
     <Application.Resources>
-        <ResourceDictionary>
-            <Style x:Key="ImageButton" TargetType="Button">
-                <Setter Property="ContentTemplate">
-                    <Setter.Value>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="{Binding Path=(common:CommonButton.Image), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}"></Image>
-                                <TextBlock Text="{Binding Path=Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}"></TextBlock>
-                            </StackPanel>
-                        </DataTemplate>
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="FontSize" Value="14"/>
-                <Setter Property="FontWeight" Value="Bold"/>
-                <Setter Property="VerticalAlignment" Value="Bottom" />
-                <Setter Property="Background" Value="Transparent" />
-            </Style>
-            <ImageSource x:Key="History">../../Resources/icons/history.png</ImageSource>
-        </ResourceDictionary>
     </Application.Resources>
 </Application>

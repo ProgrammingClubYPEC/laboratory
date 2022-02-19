@@ -16,11 +16,12 @@
     </Page.Resources>
     <Grid Background="White">
         <StackPanel Orientation="Vertical" 
-                    Margin="10, 0">
+                    Margin="10">
             <Image x:Name="userImage" Stretch="Uniform"
-                   Height="100"
+                   Height="80" 
                    />
-            <TextBlock Text="{Binding Converter={StaticResource UserConventer}}"/>
+            <TextBlock Text="{Binding Converter={StaticResource UserConventer}}"
+                       Margin="0, 5"/>
             <TextBlock Text="{Binding user_role.name}"/>
         </StackPanel>
     </Grid>

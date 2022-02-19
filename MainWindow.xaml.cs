@@ -1,5 +1,6 @@
 ﻿using laboratory.common;
 using laboratory.database;
+using laboratory.pages;
 using laboratory.widgets;
 using System;
 using System.Collections;
@@ -24,80 +25,63 @@ using System.Windows.Threading;
 
 namespace laboratory
 {
-    public class ButtonAction :INotifyPropertyChanged
-    {
-        public ImageSource ImageSource { get; set; }
-        public string NameAction { get; set; }
-
-        private Visibility _visibility;
-        public Visibility NameActionVisibly { 
-            get { return _visibility; } 
-            set
-            {
-                _visibility = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("NameActionVisibly"));
-            } 
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, e);
-        }
-
-        public ButtonAction(string name, string image)
-        {
-            NameAction = name;
-            ImageSource = new BitmapImage(new Uri(System.IO.Path.GetFullPath($"../../Resources/icons/{image}")));
-            NameActionVisibly = Visibility.Collapsed;
-        }
-    }
-
     public partial class MainWindow : Window
     {
-        private Page _userCardCurrentWidget;
-        public Page UserCardCurrentWidget
+        private Page _currentPage;
+        public Page CurrentPage
         {
-            get { return _userCardCurrentWidget; }
+            get { return _currentPage; }
             set
             {
-                if (_userCardCurrentWidget == value)
+                if (_currentPage == value)
                     return;
 
-                _userCardCurrentWidget = value;
-                OnPropertyChanged("UserCardCurrentWidget");
+                _currentPage = value;
+                page.Content = _currentPage;
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         public List<ButtonAction> actionButtons;
+        private List<string> userRolesList;
 
         public MainWindow(user owner)
         {
             InitializeComponent();
             DataContext = owner;
-            initialize();
             userCard.Content = new UserCardWidget(owner);
-            initializeActions(owner.user_role);
             
+            initialize();
+            
+            CurrentPage = createPage(owner);
         }
 
-        private void initializeActions(user_role role)
+        private Page createPage(user owner)
         {
-            actionButtons = new List<ButtonAction>();
-            for (int i = 0; i < 3; i++)
+            userRolesList = Instance.GetContext().user_role.Select(p => p.name).ToList();
+            Page page;
+            if (owner.user_role.name.Equals(userRolesList.ElementAt(0)))
             {
-                ButtonAction btn = new ButtonAction($"Button {i}", "document.png");
-                actionButtons.Add(btn);
+                page = new LaborantPage(owner, this);
+                actionButtons = (page as LaborantPage).LaborantActions;
             }
-
+            else if (owner.user_role.name.Equals(userRolesList.ElementAt(1)))
+            {
+                page = new AccountmenPage(owner, this);
+                actionButtons = (page as AccountmenPage).AccountmenActions;
+            }
+            else if (owner.user_role.name.Equals(userRolesList.ElementAt(2)))
+            {
+                page = new AdminPage(owner, this);
+                actionButtons = (page as AdminPage).AdminActions;
+            }
+            else
+            {
+                page = new PatientPage(owner, this);
+                actionButtons = (page as PatientPage).PatientActions;
+            }
+            
             listUserAction.ItemsSource = actionButtons;
+            return page;
         }
 
         private void initialize()
@@ -119,8 +103,6 @@ namespace laboratory
                 menuText.Visibility = Visibility.Visible;
                 exitText.Visibility = Visibility.Visible;
                 actionButtons.ToList().ForEach(p => p.NameActionVisibly = Visibility.Visible);
-
-                //listUserAction.ItemsSource.OfType<ButtonAction>().ToList().ForEach(btn => btn.NameActionVisibly = Visibility.Visible);
                 menu.Width = 150;
             }
             else if (userCard.Visibility == Visibility.Visible)
@@ -129,7 +111,6 @@ namespace laboratory
                 menuText.Visibility = Visibility.Collapsed;
                 exitText.Visibility = Visibility.Collapsed;
                 actionButtons.ToList().ForEach(p => p.NameActionVisibly = Visibility.Collapsed);
-                //listUserAction.ItemsSource.OfType<ButtonAction>().ToList().ForEach(btn => btn.NameActionVisibly = Visibility.Collapsed);
                 menu.Width = 50;
             }
         }
@@ -143,7 +124,7 @@ namespace laboratory
 
         private void listUserAction_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+            actionButtons.ElementAt(listUserAction.SelectedIndex).Action();
         }
     }
 }

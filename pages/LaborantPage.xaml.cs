@@ -1,5 +1,8 @@
-﻿using System;
+﻿using laboratory.common;
+using laboratory.database;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +23,47 @@ namespace laboratory.pages
     /// </summary>
     public partial class LaborantPage : Page
     {
-        public LaborantPage()
+        private Page _currentWidget;
+        public Page CurrentWidget
+        {
+            get { return _currentWidget; }
+            set
+            {
+                if (_currentWidget == value)
+                    return;
+
+                _currentWidget = value;
+                OnPropertyChanged("CurrentWidget");
+            }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private Window parentWindow;
+        public List<ButtonAction> LaborantActions;
+
+        public LaborantPage(user owner, Window parent)
         {
             InitializeComponent();
+            DataContext = owner;
+            parentWindow = parent;
+
+            LaborantActions = new List<ButtonAction>();
+            LaborantActions.Add(new ButtonAction("Формирование отчетов", "business_report.png", ReportGeneration));
+            LaborantActions.Add(new ButtonAction("Прием биоматериалов", "document.png", IntakeBiomaterials));
+        }
+
+        private void ReportGeneration()
+        {
+            MessageBox.Show("report generaiton");
+        }
+
+        private void IntakeBiomaterials()
+        {
+            MessageBox.Show("intake biomaterials");
         }
     }
 }

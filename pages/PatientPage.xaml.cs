@@ -1,5 +1,8 @@
-﻿using System;
+﻿using laboratory.common;
+using laboratory.database;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +23,41 @@ namespace laboratory.pages
     /// </summary>
     public partial class PatientPage : Page
     {
-        public PatientPage()
+        private Page _currentWidget;
+        public Page CurrentWidget
+        {
+            get { return _currentWidget; }
+            set
+            {
+                if (_currentWidget == value)
+                    return;
+
+                _currentWidget = value;
+                OnPropertyChanged("CurrentWidget");
+            }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private Window parentWindow;
+        public List<ButtonAction> PatientActions;
+
+        public PatientPage(user owner, Window parent)
         {
             InitializeComponent();
+            DataContext = owner;
+            parentWindow = parent;
+
+            PatientActions = new List<ButtonAction>();
+            PatientActions.Add(new ButtonAction("Просмотр биоматериалов", "document.png", ViewBiomaterials));
+        }
+
+        private void ViewBiomaterials()
+        {
+            MessageBox.Show("view biomaterials");
         }
     }
 }

@@ -68,6 +68,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="common\ButtonAction.cs" />
     <Compile Include="common\UserConventer.cs" />
     <Compile Include="pages\AccountmenPage.xaml.cs">
       <DependentUpon>AccountmenPage.xaml</DependentUpon>
