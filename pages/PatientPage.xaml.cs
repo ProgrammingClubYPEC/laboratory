@@ -1,5 +1,6 @@
 ﻿using laboratory.common;
 using laboratory.database;
+using laboratory.interfaces;
 using laboratory.widgets;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace laboratory.pages
     /// <summary>
     /// Логика взаимодействия для PatientPage.xaml
     /// </summary>
-    public partial class PatientPage : Page
+    public partial class PatientPage : Page, IPage, IAction
     {
         private Page _currentWidget;
         public Page CurrentWidget
@@ -38,18 +39,19 @@ namespace laboratory.pages
             }
         }
 
-        private Window parentWindow;
+        public List<ButtonAction> Actions { get; set; }
+        public Window ParentWindow { get; set; }
+
         private ViewBiomaterialsWidget viewBiomaterialsWidget;
-        public List<ButtonAction> PatientActions;
 
         public PatientPage(user owner, Window parent)
         {
             InitializeComponent();
             DataContext = owner;
-            parentWindow = parent;
+            ParentWindow = parent;
 
-            PatientActions = new List<ButtonAction>();
-            PatientActions.Add(new ButtonAction("Просмотр биоматериалов", "document.png", ViewBiomaterials));
+            Actions = new List<ButtonAction>();
+            Actions.Add(new ButtonAction("Просмотр биоматериалов", "document.png", ViewBiomaterials));
 
             viewBiomaterialsWidget = new ViewBiomaterialsWidget(owner, this);
         }

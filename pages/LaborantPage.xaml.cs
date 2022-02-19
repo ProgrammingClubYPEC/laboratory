@@ -1,5 +1,6 @@
 ﻿using laboratory.common;
 using laboratory.database;
+using laboratory.interfaces;
 using laboratory.widgets;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace laboratory.pages
     /// <summary>
     /// Логика взаимодействия для LaborantPage.xaml
     /// </summary>
-    public partial class LaborantPage : Page
+    public partial class LaborantPage : Page, IPage, IAction
     {
         private Page _currentWidget;
         public Page CurrentWidget
@@ -38,21 +39,21 @@ namespace laboratory.pages
             }
         }
 
-        private Window parentWindow;
+        public Window ParentWindow { get; set; }
+        public List<ButtonAction> Actions { get; set; }
+
         private ReportGenerationWidget reportGenerationWidget;
         private IntakeBiomaterialsWidget biomaterialsWidget;
-
-        public List<ButtonAction> LaborantActions;
 
         public LaborantPage(user owner, Window parent)
         {
             InitializeComponent();
             DataContext = owner;
-            parentWindow = parent;
+            ParentWindow = parent;
 
-            LaborantActions = new List<ButtonAction>();
-            LaborantActions.Add(new ButtonAction("Формирование отчетов", "business_report.png", ReportGeneration));
-            LaborantActions.Add(new ButtonAction("Прием биоматериалов", "document.png", IntakeBiomaterials));
+            Actions = new List<ButtonAction>();
+            Actions.Add(new ButtonAction("Формирование отчетов", "business_report.png", ReportGeneration));
+            Actions.Add(new ButtonAction("Прием биоматериалов", "document.png", IntakeBiomaterials));
 
             reportGenerationWidget = new ReportGenerationWidget(owner, this);
             biomaterialsWidget = new IntakeBiomaterialsWidget(owner, this);

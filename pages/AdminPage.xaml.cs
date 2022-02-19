@@ -1,5 +1,6 @@
 ﻿using laboratory.common;
 using laboratory.database;
+using laboratory.interfaces;
 using laboratory.widgets;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace laboratory.pages
     /// <summary>
     /// Логика взаимодействия для AdminPage.xaml
     /// </summary>
-    public partial class AdminPage : Page
+    public partial class AdminPage : Page, IPage, IAction
     {
         private Page _currentWidget;
         public Page CurrentWidget
@@ -38,23 +39,23 @@ namespace laboratory.pages
             }
         }
 
-        private Window parentWindow;
+        public List<ButtonAction> Actions { get; set; }
+        public Window ParentWindow { get; set; }
+
         private ViewReportWidget viewReportWidget;
         private ConsumableDataProcessingWidget consumableDataProcessingWidget;
         private ViewAuthorizationHistoryWidget viewAuthorizationHistoryWidget;
-
-        public List<ButtonAction> AdminActions;
 
         public AdminPage(user owner, Window parent)
         {
             InitializeComponent();
             DataContext = owner;
-            parentWindow = parent;
+            ParentWindow = parent;
 
-            AdminActions = new List<ButtonAction>();
-            AdminActions.Add(new ButtonAction("Просмотр отчетов", "business_report.png", ViewReport));
-            AdminActions.Add(new ButtonAction("Просмотр расходных материалов", "warehouse.png", ConsumableDataProcessing));
-            AdminActions.Add(new ButtonAction("Просмотр истории авторизации", "history.png", ViewAuthorizationHistory));
+            Actions = new List<ButtonAction>();
+            Actions.Add(new ButtonAction("Просмотр отчетов", "business_report.png", ViewReport));
+            Actions.Add(new ButtonAction("Просмотр расходных материалов", "warehouse.png", ConsumableDataProcessing));
+            Actions.Add(new ButtonAction("Просмотр истории авторизации", "history.png", ViewAuthorizationHistory));
 
             viewReportWidget = new ViewReportWidget(owner, this);
             consumableDataProcessingWidget = new ConsumableDataProcessingWidget(owner, this);

@@ -1,5 +1,6 @@
 ﻿using laboratory.common;
 using laboratory.database;
+using laboratory.interfaces;
 using laboratory.widgets;
 using System;
 using System.Collections.Generic;
@@ -22,13 +23,13 @@ namespace laboratory.pages
     /// <summary>
     /// Логика взаимодействия для AccountmenPage.xaml
     /// </summary>
-    public partial class AccountmenPage : Page
+    public partial class AccountmenPage : Page, IPage, IAction
     {
         private Page _currentWidget;
-        public Page CurrentWidget
-        {
-            get { return _currentWidget; }
-            set
+        public Page CurrentWidget 
+        { 
+            get { return _currentWidget; } 
+            set 
             {
                 if (_currentWidget == value)
                     return;
@@ -36,23 +37,23 @@ namespace laboratory.pages
                 _currentWidget = value;
                 Card.Content = _currentWidget;
             }
+                
         }
+        public Window ParentWindow { get; set; }
+        public List<ButtonAction> Actions { get; set; }
 
-        private Window parentWindow;
         private ViewReportWidget viewReportWidget;
         private InvoiceGenerationWidget invoiceGenerationWidget;
-
-        public List<ButtonAction> AccountmenActions;
 
         public AccountmenPage(user owner, Window parent)
         {
             InitializeComponent();
             DataContext = owner;
-            parentWindow = parent;
+            ParentWindow = parent;
 
-            AccountmenActions = new List<ButtonAction>();
-            AccountmenActions.Add(new ButtonAction("Просмотр отчетов", "business_report.png", ViewReport));
-            AccountmenActions.Add(new ButtonAction("Формирование счета", "document.png", InvoiceGeneration));
+            Actions = new List<ButtonAction>();
+            Actions.Add(new ButtonAction("Просмотр отчетов", "business_report.png", ViewReport));
+            Actions.Add(new ButtonAction("Формирование счета", "document.png", InvoiceGeneration));
 
             viewReportWidget = new ViewReportWidget(owner, this);
             invoiceGenerationWidget = new InvoiceGenerationWidget(owner, this);

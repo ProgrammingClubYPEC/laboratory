@@ -1,4 +1,5 @@
 ﻿using laboratory.database;
+using laboratory.interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,15 +20,19 @@ namespace laboratory.widgets
     /// <summary>
     /// Логика взаимодействия для ConsumableDataProcessingWidget.xaml
     /// </summary>
-    public partial class ConsumableDataProcessingWidget : Page
+    public partial class ConsumableDataProcessingWidget : Page, IWidget
     {
-        private Page parentPage;
-
+        public Page ParentPage { get; set; }
         public ConsumableDataProcessingWidget(user owner, Page parent)
         {
             InitializeComponent();
             DataContext = owner;
-            parentPage = parent;
+            ParentPage = parent;
+        }
+
+        public void UpdateData()
+        {
+            throw new NotImplementedException();
         }
     }
 }

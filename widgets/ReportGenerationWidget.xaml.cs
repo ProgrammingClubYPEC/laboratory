@@ -1,4 +1,5 @@
 ﻿using laboratory.database;
+using laboratory.interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,9 +20,9 @@ namespace laboratory.widgets
     /// <summary>
     /// Логика взаимодействия для ReportGenerationWidget.xaml
     /// </summary>
-    public partial class ReportGenerationWidget : Page
+    public partial class ReportGenerationWidget : Page, IWidget
     {
-        private Page parentPage;
+        public Page ParentPage { get; set; }
 
         public ReportGenerationWidget(user owner, Page parent)
         {

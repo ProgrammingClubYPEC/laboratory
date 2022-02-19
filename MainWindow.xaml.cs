@@ -1,5 +1,6 @@
 ﻿using laboratory.common;
 using laboratory.database;
+using laboratory.interfaces;
 using laboratory.pages;
 using laboratory.widgets;
 using System;
@@ -60,27 +61,15 @@ namespace laboratory
             userRolesList = Instance.GetContext().user_role.Select(p => p.name).ToList();
             Page page;
             if (owner.user_role.name.Equals(userRolesList.ElementAt(0)))
-            {
                 page = new LaborantPage(owner, this);
-                actionButtons = (page as LaborantPage).LaborantActions;
-            }
             else if (owner.user_role.name.Equals(userRolesList.ElementAt(1)))
-            {
                 page = new AccountmenPage(owner, this);
-                actionButtons = (page as AccountmenPage).AccountmenActions;
-            }
             else if (owner.user_role.name.Equals(userRolesList.ElementAt(2)))
-            {
                 page = new AdminPage(owner, this);
-                actionButtons = (page as AdminPage).AdminActions;
-            }
             else
-            {
                 page = new PatientPage(owner, this);
-                actionButtons = (page as PatientPage).PatientActions;
-            }
-            
-            listUserAction.ItemsSource = actionButtons;
+
+            listUserAction.ItemsSource = actionButtons = (page as IAction).Actions;
             return page;
         }
 
