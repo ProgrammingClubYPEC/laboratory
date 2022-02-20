@@ -14,8 +14,10 @@ namespace laboratory.database
     
     public partial class login_history
     {
+        public long id_history { get; set; }
         public string login { get; set; }
         public System.DateTime last_data_time { get; set; }
+        public bool attempt { get; set; }
     
         public virtual login login1 { get; set; }
     }

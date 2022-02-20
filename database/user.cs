@@ -18,8 +18,10 @@ namespace laboratory.database
         public user()
         {
             this.analyzer = new HashSet<analyzer>();
+            this.order = new HashSet<order>();
             this.service_rendered = new HashSet<service_rendered>();
             this.issued_invoices = new HashSet<issued_invoices>();
+            this.service = new HashSet<service>();
         }
     
         public string login { get; set; }
@@ -33,11 +35,15 @@ namespace laboratory.database
         public virtual ICollection<analyzer> analyzer { get; set; }
         public virtual login login1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<order> order { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<service_rendered> service_rendered { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<issued_invoices> issued_invoices { get; set; }
         public virtual user_confidential_data user_confidential_data { get; set; }
         public virtual user_contact user_contact { get; set; }
         public virtual user_role user_role { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<service> service { get; set; }
     }
 }

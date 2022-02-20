@@ -70,58 +70,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="common\ButtonAction.cs" />
-    <Compile Include="interfaces\IAction.cs" />
-    <Compile Include="interfaces\IPage.cs" />
-    <Compile Include="common\UserConventer.cs" />
-    <Compile Include="interfaces\IWidget.cs" />
-    <Compile Include="pages\AccountmenPage.xaml.cs">
-      <DependentUpon>AccountmenPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="pages\AdminPage.xaml.cs">
-      <DependentUpon>AdminPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="pages\LaborantPage.xaml.cs">
-      <DependentUpon>LaborantPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="pages\PatientPage.xaml.cs">
-      <DependentUpon>PatientPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="widgets\ConsumableDataProcessingWidget.xaml.cs">
-      <DependentUpon>ConsumableDataProcessingWidget.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="widgets\IntakeBiomaterialsWidget.xaml.cs">
-      <DependentUpon>IntakeBiomaterialsWidget.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="widgets\InvoiceGenerationWidget.xaml.cs">
-      <DependentUpon>InvoiceGenerationWidget.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="widgets\ReportGenerationWidget.xaml.cs">
-      <DependentUpon>ReportGenerationWidget.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="widgets\UserCardWidget.xaml.cs">
-      <DependentUpon>UserCardWidget.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="widgets\ViewAuthorizationHistoryWidget.xaml.cs">
-      <DependentUpon>ViewAuthorizationHistoryWidget.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="widgets\ViewBiomaterialsWidget.xaml.cs">
-      <DependentUpon>ViewBiomaterialsWidget.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="widgets\ViewReportWidget.xaml.cs">
-      <DependentUpon>ViewReportWidget.xaml</DependentUpon>
-    </Compile>
-    <Page Include="LoginWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="database\analyzer.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -131,10 +79,6 @@
     <Compile Include="database\check_for_insurance.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="database\friendship.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="database\Instance.cs" />
     <Compile Include="database\insurance_company.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -177,6 +121,9 @@
     <Compile Include="database\service_status.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="database\sysdiagrams.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="database\user.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -189,6 +136,62 @@
     <Compile Include="database\user_role.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="interfaces\IAction.cs" />
+    <Compile Include="interfaces\IPage.cs" />
+    <Compile Include="common\UserConventer.cs" />
+    <Compile Include="interfaces\IWidget.cs" />
+    <Compile Include="pages\AccountmenPage.xaml.cs">
+      <DependentUpon>AccountmenPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="pages\AdminPage.xaml.cs">
+      <DependentUpon>AdminPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="pages\LaborantPage.xaml.cs">
+      <DependentUpon>LaborantPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="pages\PatientPage.xaml.cs">
+      <DependentUpon>PatientPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="widgets\ConsumableDataProcessingWidget.xaml.cs">
+      <DependentUpon>ConsumableDataProcessingWidget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="widgets\IntakeBiomaterialsWidget.xaml.cs">
+      <DependentUpon>IntakeBiomaterialsWidget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="widgets\InvoiceGenerationWidget.xaml.cs">
+      <DependentUpon>InvoiceGenerationWidget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="widgets\LaboratoryNewsWidget.xaml.cs">
+      <DependentUpon>LaboratoryNewsWidget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="widgets\ReportGenerationWidget.xaml.cs">
+      <DependentUpon>ReportGenerationWidget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="widgets\UserCardWidget.xaml.cs">
+      <DependentUpon>UserCardWidget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="widgets\ViewAuthorizationHistoryWidget.xaml.cs">
+      <DependentUpon>ViewAuthorizationHistoryWidget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="widgets\ViewBiomaterialsWidget.xaml.cs">
+      <DependentUpon>ViewBiomaterialsWidget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="widgets\ViewReportWidget.xaml.cs">
+      <DependentUpon>ViewReportWidget.xaml</DependentUpon>
+    </Compile>
+    <Page Include="LoginWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="database\Instance.cs" />
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
@@ -221,6 +224,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="widgets\InvoiceGenerationWidget.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="widgets\LaboratoryNewsWidget.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -279,7 +286,18 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="database\Model.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model.edmx</DependentUpon>
+      <LastGenOutput>Model.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="database\Model.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model.edmx</DependentUpon>
+      <LastGenOutput>Model.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <None Include="Resources\accountmen.jpeg" />
   </ItemGroup>
@@ -299,16 +317,7 @@
     <None Include="Resources\logo_picture.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="database\Model.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Model.Context.cs</LastGenOutput>
-      <DependentUpon>Model.edmx</DependentUpon>
-    </Content>
-    <Content Include="database\Model.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model.edmx</DependentUpon>
-      <LastGenOutput>Model.cs</LastGenOutput>
-    </Content>
+    <None Include="Resources\icons\newspaper.png" />
     <None Include="Resources\icons\warehouse.png" />
     <None Include="Resources\icons\power_off.png" />
     <Resource Include="Resources\icons\history.png" />

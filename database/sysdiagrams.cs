@@ -12,9 +12,12 @@ namespace laboratory.database
     using System;
     using System.Collections.Generic;
     
-    public partial class friendship
+    public partial class sysdiagrams
     {
-        public string login_sender { get; set; }
-        public string login_recirver { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

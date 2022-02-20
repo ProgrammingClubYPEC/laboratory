@@ -49,12 +49,11 @@ namespace laboratory
                 return;
             }
 
-            if (Instance.GetContext().login.Where(p => p.login1 == _login.login1 && p.password == _login.password).ToList().Count() != 1)
+            if (saveAuthorizationAttempt(Instance.GetContext().login.Where(p => p.login1 == _login.login1 && p.password == _login.password).ToList().Count() != 1))
             {
                 MessageErrorString = "Не удалось авторизироваться!\nЛогин или пароль не корректны.";
                 return;
             }
-            _login.user = Instance.GetContext().user.Where(p => p.login == _login.login1).FirstOrDefault();
 
             Hide();
             MainWindow window = new MainWindow(_login.user);
@@ -62,6 +61,27 @@ namespace laboratory
 
             if (!(bool)window.ShowDialog())
                 clearWindow();
+        }
+
+        private bool saveAuthorizationAttempt(bool attempt)
+        {
+            if (!Instance.GetContext().login.Select(p => p.login1).Contains(_login.login1))
+                return true;
+
+            _login.user = Instance.GetContext().user.Where(p => p.login == _login.login1).FirstOrDefault();
+            if (_login.user.code_role == 4)
+                return false;
+
+            Instance.GetContext().login_history.Add(new login_history()
+            {
+                last_data_time = DateTime.Now,
+                login = _login.login1,
+                attempt = !attempt
+            });
+            Instance.GetContext().SaveChanges();
+            Instance.Reload();
+
+            return attempt;
         }
 
         private void clearWindow()

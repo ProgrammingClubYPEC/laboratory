@@ -30,16 +30,6 @@
           <Property Name="sum" Type="money" Nullable="false" />
           <Property Name="service_list" Type="nvarchar(max)" />
         </EntityType>
-        <!--Ошибки, обнаруженные при создании:
-предупреждение 6002: В таблице или представлении "18ip26.dbo.friendship" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
-        <EntityType Name="friendship">
-          <Key>
-            <PropertyRef Name="login_sender" />
-            <PropertyRef Name="login_recirver" />
-          </Key>
-          <Property Name="login_sender" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="login_recirver" Type="nvarchar" MaxLength="50" Nullable="false" />
-        </EntityType>
         <EntityType Name="insurance_company">
           <Key>
             <PropertyRef Name="insurance_company_code" />
@@ -52,7 +42,7 @@
           <Property Name="bik" Type="bigint" Nullable="false" />
         </EntityType>
         <!--Ошибки, обнаруженные при создании:
-предупреждение 6002: В таблице или представлении "18ip26.dbo.issued_invoices" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+предупреждение 6002: В таблице или представлении "LaboratoryDataBase.dbo.issued_invoices" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="issued_invoices">
           <Key>
             <PropertyRef Name="login" />
@@ -74,10 +64,12 @@
         </EntityType>
         <EntityType Name="login_history">
           <Key>
-            <PropertyRef Name="login" />
+            <PropertyRef Name="id_history" />
           </Key>
+          <Property Name="id_history" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="login" Type="nchar" MaxLength="50" Nullable="false" />
           <Property Name="last_data_time" Type="datetime" Nullable="false" />
+          <Property Name="attempt" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="order">
           <Key>
@@ -85,6 +77,7 @@
           </Key>
           <Property Name="order_code" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="creation_date" Type="date" Nullable="false" />
+          <Property Name="customer_login" Type="nchar" MaxLength="50" Nullable="false" />
           <Property Name="service_code" Type="bigint" Nullable="false" />
           <Property Name="order_status_code" Type="bigint" Nullable="false" />
           <Property Name="service_status_code" Type="bigint" Nullable="false" />
@@ -118,7 +111,7 @@
           <Property Name="analyzer_code" Type="bigint" Nullable="false" />
         </EntityType>
         <!--Ошибки, обнаруженные при создании:
-предупреждение 6002: В таблице или представлении "18ip26.dbo.service_set" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+предупреждение 6002: В таблице или представлении "LaboratoryDataBase.dbo.service_set" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="service_set">
           <Key>
             <PropertyRef Name="login" />
@@ -134,6 +127,16 @@
           <Property Name="status_code" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="300" Nullable="false" />
           <Property Name="value" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="user">
           <Key>
@@ -232,9 +235,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_login_history_login">
+        <Association Name="FK_login_history_login1">
           <End Role="login" Type="Self.login" Multiplicity="1" />
-          <End Role="login_history" Type="Self.login_history" Multiplicity="0..1" />
+          <End Role="login_history" Type="Self.login_history" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="login">
               <PropertyRef Name="login" />
@@ -280,6 +283,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_order_user">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="login" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="customer_login" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_service_rendered_analyzer">
           <End Role="analyzer" Type="Self.analyzer" Multiplicity="1" />
           <End Role="service_rendered" Type="Self.service_rendered" Multiplicity="*" />
@@ -304,18 +319,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_service_set_login">
-          <End Role="login" Type="Self.login" Multiplicity="1" />
-          <End Role="service_set" Type="Self.service_set" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="login">
-              <PropertyRef Name="login" />
-            </Principal>
-            <Dependent Role="service_set">
-              <PropertyRef Name="login" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_service_set_service">
           <End Role="service" Type="Self.service" Multiplicity="1" />
           <End Role="service_set" Type="Self.service_set" Multiplicity="*" />
@@ -325,6 +328,18 @@
             </Principal>
             <Dependent Role="service_set">
               <PropertyRef Name="service_code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_service_set_user">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="service_set" Type="Self.service_set" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="login" />
+            </Principal>
+            <Dependent Role="service_set">
+              <PropertyRef Name="login" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -388,16 +403,11 @@
           <EntitySet Name="service" EntityType="Self.service" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="service_rendered" EntityType="Self.service_rendered" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="service_status" EntityType="Self.service_status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user_confidential_data" EntityType="Self.user_confidential_data" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user_contact" EntityType="Self.user_contact" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user_role" EntityType="Self.user_role" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="friendship" EntityType="Self.friendship" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [friendship].[login_sender] AS [login_sender], 
-    [friendship].[login_recirver] AS [login_recirver]
-    FROM [dbo].[friendship] AS [friendship]</DefiningQuery>
-          </EntitySet>
           <EntitySet Name="issued_invoices" EntityType="Self.issued_invoices" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [issued_invoices].[login] AS [login], 
@@ -432,7 +442,7 @@
             <End Role="user" EntitySet="user" />
             <End Role="issued_invoices" EntitySet="issued_invoices" />
           </AssociationSet>
-          <AssociationSet Name="FK_login_history_login" Association="Self.FK_login_history_login">
+          <AssociationSet Name="FK_login_history_login1" Association="Self.FK_login_history_login1">
             <End Role="login" EntitySet="login" />
             <End Role="login_history" EntitySet="login_history" />
           </AssociationSet>
@@ -448,6 +458,10 @@
             <End Role="service_status" EntitySet="service_status" />
             <End Role="order" EntitySet="order" />
           </AssociationSet>
+          <AssociationSet Name="FK_order_user" Association="Self.FK_order_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
           <AssociationSet Name="FK_service_rendered_analyzer" Association="Self.FK_service_rendered_analyzer">
             <End Role="analyzer" EntitySet="analyzer" />
             <End Role="service_rendered" EntitySet="service_rendered" />
@@ -456,12 +470,12 @@
             <End Role="user" EntitySet="user" />
             <End Role="service_rendered" EntitySet="service_rendered" />
           </AssociationSet>
-          <AssociationSet Name="FK_service_set_login" Association="Self.FK_service_set_login">
-            <End Role="login" EntitySet="login" />
-            <End Role="service_set" EntitySet="service_set" />
-          </AssociationSet>
           <AssociationSet Name="FK_service_set_service" Association="Self.FK_service_set_service">
             <End Role="service" EntitySet="service" />
+            <End Role="service_set" EntitySet="service_set" />
+          </AssociationSet>
+          <AssociationSet Name="FK_service_set_user" Association="Self.FK_service_set_user">
+            <End Role="user" EntitySet="user" />
             <End Role="service_set" EntitySet="service_set" />
           </AssociationSet>
           <AssociationSet Name="FK_user_confidential_data_user" Association="Self.FK_user_confidential_data_user">
@@ -534,17 +548,18 @@
           </Key>
           <Property Name="login1" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="password" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="login_history" Relationship="Self.FK_login_history_login" FromRole="login" ToRole="login_history" />
+          <NavigationProperty Name="login_history" Relationship="Self.FK_login_history_login1" FromRole="login" ToRole="login_history" />
           <NavigationProperty Name="user" Relationship="Self.FK_user_login" FromRole="login" ToRole="user" />
-          <NavigationProperty Name="service" Relationship="Self.service_set" FromRole="login" ToRole="service" />
         </EntityType>
         <EntityType Name="login_history">
           <Key>
-            <PropertyRef Name="login" />
+            <PropertyRef Name="id_history" />
           </Key>
+          <Property Name="id_history" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="login" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="last_data_time" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="login1" Relationship="Self.FK_login_history_login" FromRole="login_history" ToRole="login" />
+          <Property Name="attempt" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="login1" Relationship="Self.FK_login_history_login1" FromRole="login_history" ToRole="login" />
         </EntityType>
         <EntityType Name="order">
           <Key>
@@ -552,6 +567,7 @@
           </Key>
           <Property Name="order_code" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="creation_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="customer_login" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="service_code" Type="Int64" Nullable="false" />
           <Property Name="order_status_code" Type="Int64" Nullable="false" />
           <Property Name="service_status_code" Type="Int64" Nullable="false" />
@@ -559,6 +575,7 @@
           <NavigationProperty Name="order_status" Relationship="Self.FK_order_order_status" FromRole="order" ToRole="order_status" />
           <NavigationProperty Name="service" Relationship="Self.FK_order_service" FromRole="order" ToRole="service" />
           <NavigationProperty Name="service_status" Relationship="Self.FK_order_service_status" FromRole="order" ToRole="service_status" />
+          <NavigationProperty Name="user" Relationship="Self.FK_order_user" FromRole="order" ToRole="user" />
         </EntityType>
         <EntityType Name="order_status">
           <Key>
@@ -579,7 +596,7 @@
           <Property Name="deadline" Type="DateTime" Precision="0" />
           <Property Name="mean_deviation" Type="Int32" />
           <NavigationProperty Name="order" Relationship="Self.FK_order_service" FromRole="service" ToRole="order" />
-          <NavigationProperty Name="login" Relationship="Self.service_set" FromRole="service" ToRole="login" />
+          <NavigationProperty Name="user" Relationship="Self.service_set" FromRole="service" ToRole="user" />
         </EntityType>
         <EntityType Name="service_rendered">
           <Key>
@@ -601,6 +618,16 @@
           <Property Name="value" Type="Int32" Nullable="false" />
           <NavigationProperty Name="order" Relationship="Self.FK_order_service_status" FromRole="service_status" ToRole="order" />
         </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
         <EntityType Name="user">
           <Key>
             <PropertyRef Name="login" />
@@ -613,11 +640,13 @@
           <Property Name="code_role" Type="Int64" Nullable="false" />
           <NavigationProperty Name="analyzer" Relationship="Self.FK_analyzer_user" FromRole="user" ToRole="analyzer" />
           <NavigationProperty Name="login1" Relationship="Self.FK_user_login" FromRole="user" ToRole="login" />
+          <NavigationProperty Name="order" Relationship="Self.FK_order_user" FromRole="user" ToRole="order" />
           <NavigationProperty Name="service_rendered" Relationship="Self.FK_service_rendered_user" FromRole="user" ToRole="service_rendered" />
           <NavigationProperty Name="issued_invoices" Relationship="Self.FK_issued_invoices_user" FromRole="user" ToRole="issued_invoices" />
           <NavigationProperty Name="user_confidential_data" Relationship="Self.FK_user_confidential_data_user" FromRole="user" ToRole="user_confidential_data" />
           <NavigationProperty Name="user_contact" Relationship="Self.FK_user_contact_user" FromRole="user" ToRole="user_contact" />
           <NavigationProperty Name="user_role" Relationship="Self.FK_user_user_role" FromRole="user" ToRole="user_role" />
+          <NavigationProperty Name="service" Relationship="Self.service_set" FromRole="user" ToRole="service" />
         </EntityType>
         <EntityType Name="user_confidential_data">
           <Key>
@@ -647,14 +676,6 @@
           <Property Name="code_role" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="user" Relationship="Self.FK_user_user_role" FromRole="user_role" ToRole="user" />
-        </EntityType>
-        <EntityType Name="friendship">
-          <Key>
-            <PropertyRef Name="login_sender" />
-            <PropertyRef Name="login_recirver" />
-          </Key>
-          <Property Name="login_sender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="login_recirver" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="issued_invoices">
           <Key>
@@ -731,9 +752,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_login_history_login">
+        <Association Name="FK_login_history_login1">
           <End Role="login" Type="Self.login" Multiplicity="1" />
-          <End Role="login_history" Type="Self.login_history" Multiplicity="0..1" />
+          <End Role="login_history" Type="Self.login_history" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="login">
               <PropertyRef Name="login1" />
@@ -788,6 +809,18 @@
             </Principal>
             <Dependent Role="order">
               <PropertyRef Name="service_status_code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_user">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="login" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="customer_login" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -852,8 +885,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="service_set">
-          <End Role="login" Type="Self.login" Multiplicity="*" />
           <End Role="service" Type="Self.service" Multiplicity="*" />
+          <End Role="user" Type="Self.user" Multiplicity="*" />
         </Association>
         <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="analyzer" EntityType="Self.analyzer" />
@@ -867,11 +900,11 @@
           <EntitySet Name="service" EntityType="Self.service" />
           <EntitySet Name="service_rendered" EntityType="Self.service_rendered" />
           <EntitySet Name="service_status" EntityType="Self.service_status" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="user" EntityType="Self.user" />
           <EntitySet Name="user_confidential_data" EntityType="Self.user_confidential_data" />
           <EntitySet Name="user_contact" EntityType="Self.user_contact" />
           <EntitySet Name="user_role" EntityType="Self.user_role" />
-          <EntitySet Name="friendship" EntityType="Self.friendship" />
           <EntitySet Name="issued_invoices" EntityType="Self.issued_invoices" />
           <AssociationSet Name="FK_analyzer_job_analyzer" Association="Self.FK_analyzer_job_analyzer">
             <End Role="analyzer" EntitySet="analyzer" />
@@ -893,7 +926,7 @@
             <End Role="insurance_company" EntitySet="insurance_company" />
             <End Role="issued_invoices" EntitySet="issued_invoices" />
           </AssociationSet>
-          <AssociationSet Name="FK_login_history_login" Association="Self.FK_login_history_login">
+          <AssociationSet Name="FK_login_history_login1" Association="Self.FK_login_history_login1">
             <End Role="login" EntitySet="login" />
             <End Role="login_history" EntitySet="login_history" />
           </AssociationSet>
@@ -911,6 +944,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_order_service_status" Association="Self.FK_order_service_status">
             <End Role="service_status" EntitySet="service_status" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_user" Association="Self.FK_order_user">
+            <End Role="user" EntitySet="user" />
             <End Role="order" EntitySet="order" />
           </AssociationSet>
           <AssociationSet Name="FK_service_rendered_user" Association="Self.FK_service_rendered_user">
@@ -934,8 +971,8 @@
             <End Role="user" EntitySet="user" />
           </AssociationSet>
           <AssociationSet Name="service_set" Association="Self.service_set">
-            <End Role="login" EntitySet="login" />
             <End Role="service" EntitySet="service" />
+            <End Role="user" EntitySet="user" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -995,8 +1032,10 @@
           <EntitySetMapping Name="login_history">
             <EntityTypeMapping TypeName="Model.login_history">
               <MappingFragment StoreEntitySet="login_history">
+                <ScalarProperty Name="id_history" ColumnName="id_history" />
                 <ScalarProperty Name="login" ColumnName="login" />
                 <ScalarProperty Name="last_data_time" ColumnName="last_data_time" />
+                <ScalarProperty Name="attempt" ColumnName="attempt" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1005,6 +1044,7 @@
               <MappingFragment StoreEntitySet="order">
                 <ScalarProperty Name="order_code" ColumnName="order_code" />
                 <ScalarProperty Name="creation_date" ColumnName="creation_date" />
+                <ScalarProperty Name="customer_login" ColumnName="customer_login" />
                 <ScalarProperty Name="service_code" ColumnName="service_code" />
                 <ScalarProperty Name="order_status_code" ColumnName="order_status_code" />
                 <ScalarProperty Name="service_status_code" ColumnName="service_status_code" />
@@ -1051,6 +1091,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="Model.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="user">
             <EntityTypeMapping TypeName="Model.user">
               <MappingFragment StoreEntitySet="user">
@@ -1092,14 +1143,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="friendship">
-            <EntityTypeMapping TypeName="Model.friendship">
-              <MappingFragment StoreEntitySet="friendship">
-                <ScalarProperty Name="login_sender" ColumnName="login_sender" />
-                <ScalarProperty Name="login_recirver" ColumnName="login_recirver" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="issued_invoices">
             <EntityTypeMapping TypeName="Model.issued_invoices">
               <MappingFragment StoreEntitySet="issued_invoices">
@@ -1111,11 +1154,11 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <AssociationSetMapping Name="service_set" TypeName="Model.service_set" StoreEntitySet="service_set">
-            <EndProperty Name="login">
-              <ScalarProperty Name="login1" ColumnName="login" />
-            </EndProperty>
             <EndProperty Name="service">
               <ScalarProperty Name="service_code" ColumnName="service_code" />
+            </EndProperty>
+            <EndProperty Name="user">
+              <ScalarProperty Name="login" ColumnName="login" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>

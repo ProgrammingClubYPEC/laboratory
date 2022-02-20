@@ -17,15 +17,14 @@ namespace laboratory.database
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public login()
         {
-            this.service = new HashSet<service>();
+            this.login_history = new HashSet<login_history>();
         }
     
         public string login1 { get; set; }
         public string password { get; set; }
     
-        public virtual login_history login_history { get; set; }
-        public virtual user user { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<service> service { get; set; }
+        public virtual ICollection<login_history> login_history { get; set; }
+        public virtual user user { get; set; }
     }
 }

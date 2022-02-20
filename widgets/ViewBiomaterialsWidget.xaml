@@ -20,10 +20,45 @@
             <ColumnDefinition Width="0.1*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Text="Просмотр биоматериалов"
+        <TextBlock Text="Просмотр оказанных услуг"
                    Grid.Column="1"
                    FontSize="14" FontWeight="Bold"
                    HorizontalAlignment="Center" VerticalAlignment="Center"
                    />
+
+        <ListBox x:Name="viewListBox"
+                 Grid.Row="1" Grid.Column="1"
+                 Background="Transparent"
+                 ItemsSource="{Binding login1.service}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal"
+                                Height="100"
+                                >
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock>
+                                <Run Text="Название услуга: "/>
+                                <Run Text="{Binding login1.service.name}"/>
+                            </TextBlock>
+                            <TextBlock >
+                                <Run Text="Стоимость услуги: "/>
+                                <Run Text="{Binding login1.service.price}"/>
+                            </TextBlock>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock>
+                                <Run Text="Дата оказания услуги: "/>
+                                <Run Text="{Binding login1.service.order.creation_date}"/>
+                            </TextBlock>
+                            <TextBlock >
+                                <Run Text="Статус заказа: "/>
+                                <Run Text="{Binding login1.service.order.order_status.name}"/>
+                            </TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
     </Grid>
 </Page>

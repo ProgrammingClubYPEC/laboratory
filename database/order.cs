@@ -16,6 +16,7 @@ namespace laboratory.database
     {
         public long order_code { get; set; }
         public System.DateTime creation_date { get; set; }
+        public string customer_login { get; set; }
         public long service_code { get; set; }
         public long order_status_code { get; set; }
         public long service_status_code { get; set; }
@@ -24,5 +25,6 @@ namespace laboratory.database
         public virtual order_status order_status { get; set; }
         public virtual service service { get; set; }
         public virtual service_status service_status { get; set; }
+        public virtual user user { get; set; }
     }
 }

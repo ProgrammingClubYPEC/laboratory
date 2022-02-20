@@ -21,5 +21,7 @@ namespace laboratory.database
         {
             return !String.IsNullOrEmpty(login.login1) && !String.IsNullOrEmpty(login.password);
         }
+
+        public static void Reload() => Instance.GetContext().ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
     }
 }

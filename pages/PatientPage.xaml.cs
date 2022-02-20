@@ -43,6 +43,7 @@ namespace laboratory.pages
         public Window ParentWindow { get; set; }
 
         private ViewBiomaterialsWidget viewBiomaterialsWidget;
+        private LaboratoryNewsWidget laboratoryNewsWidget;
 
         public PatientPage(user owner, Window parent)
         {
@@ -51,12 +52,15 @@ namespace laboratory.pages
             ParentWindow = parent;
 
             Actions = new List<ButtonAction>();
+            Actions.Add(new ButtonAction("Новости", "newspaper.png", LaboratoryNews));
             Actions.Add(new ButtonAction("Просмотр биоматериалов", "document.png", ViewBiomaterials));
 
             viewBiomaterialsWidget = new ViewBiomaterialsWidget(owner, this);
+            laboratoryNewsWidget = new LaboratoryNewsWidget(owner, this);
         }
 
         private void ViewBiomaterials() => CurrentWidget = viewBiomaterialsWidget;
+        private void LaboratoryNews() => CurrentWidget = laboratoryNewsWidget;
 
     }
 }

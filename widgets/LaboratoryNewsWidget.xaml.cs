@@ -18,23 +18,22 @@ using System.Windows.Shapes;
 namespace laboratory.widgets
 {
     /// <summary>
-    /// Логика взаимодействия для ViewAuthorizationHistoryWidget.xaml
+    /// Логика взаимодействия для LaboratoryNewsWidget.xaml
     /// </summary>
-    public partial class ViewAuthorizationHistoryWidget : Page, IWidget
+    public partial class LaboratoryNewsWidget : Page, IWidget
     {
         public Page ParentPage { get; set; }
 
-        public ViewAuthorizationHistoryWidget(user owner, Page parent)
+        public LaboratoryNewsWidget(user owner, Page parent)
         {
             InitializeComponent();
             DataContext = owner;
             ParentPage = parent;
-            UpdateData();
         }
 
         public void UpdateData()
         {
-            historyTable.ItemsSource = Instance.GetContext().login_history.ToList();
+            throw new NotImplementedException();
         }
     }
 }

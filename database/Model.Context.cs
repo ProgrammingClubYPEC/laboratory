@@ -36,11 +36,11 @@ namespace laboratory.database
         public virtual DbSet<service> service { get; set; }
         public virtual DbSet<service_rendered> service_rendered { get; set; }
         public virtual DbSet<service_status> service_status { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<user> user { get; set; }
         public virtual DbSet<user_confidential_data> user_confidential_data { get; set; }
         public virtual DbSet<user_contact> user_contact { get; set; }
         public virtual DbSet<user_role> user_role { get; set; }
-        public virtual DbSet<friendship> friendship { get; set; }
         public virtual DbSet<issued_invoices> issued_invoices { get; set; }
     }
 }
