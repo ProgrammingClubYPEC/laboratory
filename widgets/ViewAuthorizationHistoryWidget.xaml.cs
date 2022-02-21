@@ -29,12 +29,45 @@ namespace laboratory.widgets
             InitializeComponent();
             DataContext = owner;
             ParentPage = parent;
+            Initilize();
             UpdateData();
+        }
+
+        private void Initilize()
+        {
+            attemptFilterComboBox.ItemsSource = new List<string>() { "None", "True", "False" };
+            loginFilterComboBox.ItemsSource = Instance.GetContext().login.Select(p => p.login1.Trim()).ToList();
         }
 
         public void UpdateData()
         {
-            historyTable.ItemsSource = Instance.GetContext().login_history.ToList();
+            var historyList = Instance.GetContext().login_history.OrderByDescending(p => p.id_history).ToList();
+
+            if (loginFilterComboBox.SelectedIndex > 0)
+                historyList = historyList.Where(p => p.login.Trim().Contains(loginFilterComboBox.SelectedItem as string)).ToList();
+
+            if (serachDatePicker.SelectedDate != null)
+                historyList = historyList.Where(p => p.last_data_time.Date.Equals(serachDatePicker.SelectedDate)).ToList();
+
+            if (attemptFilterComboBox.SelectedIndex > 0)
+                historyList= historyList.Where(p => p.attempt.ToString().Equals(attemptFilterComboBox.SelectedItem as string)).ToList();
+
+            historyTable.ItemsSource = historyList;
+        }
+
+        private void serachDatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateData();
+        }
+
+        private void loginFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateData();
+        }
+
+        private void attemptFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateData();
         }
     }
 }
