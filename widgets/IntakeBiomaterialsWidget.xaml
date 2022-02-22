@@ -10,7 +10,8 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="65"/>
             <RowDefinition />
             <RowDefinition Height="0.1*"/>
         </Grid.RowDefinitions>
@@ -20,10 +21,59 @@
             <ColumnDefinition Width="0.1*"/>
         </Grid.ColumnDefinitions>
 
+        <Frame Grid.ColumnSpan="3"
+               Background="#76e383"
+               />
         <TextBlock Text="Прием биоматериалов"
-                   Grid.Column="1"
+                   Grid.ColumnSpan="3"
                    FontSize="14" FontWeight="Bold"
                    HorizontalAlignment="Center" VerticalAlignment="Center"
                    />
+
+        <StackPanel Orientation="Horizontal"
+                    Grid.Column="1" Grid.Row="1"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    >
+            <Button x:Name="scanBarcodeBtn"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Background="White" BorderBrush="White"
+                    Click="scanBarcodeBtn_Click"
+                    >
+                <Image x:Name="scanBarcodeIcon"
+                           Height="25" Stretch="Uniform"
+                           Source="/Resources/icons/barcode.png" 
+                           />
+            </Button>
+            <TextBlock Text="Код пробирки:"
+                       Margin="10, 0"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                       />
+            <ComboBox x:Name="biomaterialCodeText"
+                      Width="300"
+                      IsEditable="True" IsTextSearchEnabled="True" IsTextSearchCaseSensitive="True"
+                      KeyDown="biomaterialCodeText_KeyDown"
+                      SelectionChanged="loginFilterComboBox_SelectionChanged"
+                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                      />
+            <Image x:Name="barcodeImage"
+                   Width="100" Height="50"
+                   Margin="30, 0, 10, 0"
+                   />
+            <Button x:Name="exportBarcodeBtn"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Background="White" BorderBrush="White"
+                    Click="exportBarcodeBtn_Click"
+                    >
+                    <Image x:Name="exportBarcodeIcon"
+                           Height="25" Stretch="Uniform"
+                           Source="/Resources/icons/printer.png" 
+                           />
+            </Button>
+        </StackPanel>
+
+        <Frame x:Name="configWidget"
+               Grid.Column="1" Grid.Row="2"
+               />
+
     </Grid>
 </Page>

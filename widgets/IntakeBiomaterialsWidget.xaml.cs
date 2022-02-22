@@ -35,5 +35,20 @@ namespace laboratory.widgets
         {
             throw new NotImplementedException();
         }
+
+        private void exportBarcodeBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void scanBarcodeBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void biomaterialCodeText_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
     }
 }
