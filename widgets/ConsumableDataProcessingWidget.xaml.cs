@@ -22,8 +22,11 @@ namespace laboratory.widgets
     /// </summary>
     public partial class ConsumableDataProcessingWidget : Page, IWidget
     {
-        public Page ParentPage { get; set; }
-        public ConsumableDataProcessingWidget(user owner, Page parent)
+        public IPage ParentPage { get; set; }
+        public IConfigWidget CurrentConfigWidget { get; set; }
+        public List<IConfigWidget> ConfigWidgets { get; set; }
+
+        public ConsumableDataProcessingWidget(user owner, IPage parent)
         {
             InitializeComponent();
             DataContext = owner;
@@ -31,6 +34,11 @@ namespace laboratory.widgets
         }
 
         public void UpdateData()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ChangeConfigWidget<T>()
         {
             throw new NotImplementedException();
         }

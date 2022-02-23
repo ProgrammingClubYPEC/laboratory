@@ -12,6 +12,6 @@ namespace laboratory.interfaces
     public interface IPage
     {
         Window ParentWindow { get; set; }
-        Page CurrentWidget { get; set; }
+        IWidget CurrentWidget { get; set; }
     }
 }

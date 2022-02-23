@@ -22,9 +22,11 @@ namespace laboratory.widgets
     /// </summary>
     public partial class ReportGenerationWidget : Page, IWidget
     {
-        public Page ParentPage { get; set; }
+        public IPage ParentPage { get; set; }
+        public IConfigWidget CurrentConfigWidget { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public List<IConfigWidget> ConfigWidgets { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public ReportGenerationWidget(user owner, Page parent)
+        public ReportGenerationWidget(user owner, IPage parent)
         {
             InitializeComponent();
             DataContext = owner;
@@ -32,6 +34,11 @@ namespace laboratory.widgets
         }
 
         public void UpdateData()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ChangeConfigWidget<T>()
         {
             throw new NotImplementedException();
         }

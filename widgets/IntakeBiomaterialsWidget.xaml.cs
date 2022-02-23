@@ -1,5 +1,6 @@
 ﻿using laboratory.database;
 using laboratory.interfaces;
+using laboratory.widgets.config;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,20 +21,65 @@ namespace laboratory.widgets
     /// <summary>
     /// Логика взаимодействия для IntakeBiomaterialsWidget.xaml
     /// </summary>
-    public partial class IntakeBiomaterialsWidget : Page, IWidget
+    public partial class IntakeBiomaterialsWidget : Page, IWidget, IErrorMessage
     {
-        public Page ParentPage { get; set; }
+        public IPage ParentPage { get; set; }
 
-        public IntakeBiomaterialsWidget(user owner, Page parent)
+        private IConfigWidget _configWidget;
+        public IConfigWidget CurrentConfigWidget 
+        { 
+            get { return _configWidget; }
+            set 
+            {
+                if (_configWidget == value)
+                    return;
+
+                _configWidget = value;
+                configWidgetCard.Content = _configWidget;
+            }
+        }
+
+        private string _errorMessageString;
+        public string MessageErrorString 
+        { 
+            get { return _errorMessageString; }
+            set
+            {
+                _errorMessageString = value;
+                ErrorMessageText.Text = value;
+            }
+        }
+
+        public List<IConfigWidget> ConfigWidgets { get; set; }
+
+        private BiomaterialsOrderConfigWidget biomaterialsOrderConfigWidget;
+        private AddingNewUserConfigWidget addingNewUserConfigWidget;
+
+        public IntakeBiomaterialsWidget(user owner, IPage parent)
         {
             InitializeComponent();
             DataContext = owner;
             ParentPage = parent;
+
+            biomaterialsOrderConfigWidget = new BiomaterialsOrderConfigWidget(owner, this);
+            addingNewUserConfigWidget = new AddingNewUserConfigWidget(owner, this);
+            ConfigWidgets = new List<IConfigWidget> { biomaterialsOrderConfigWidget, addingNewUserConfigWidget };
+
+            exportBarcodeBtn.IsEnabled = false;
+            scanBarcodeIcon.Source = new BitmapImage(new Uri(System.IO.Path.GetFullPath("../../Resources/icons/barcode.png")));
+            exportBarcodeIcon.Source = new BitmapImage(new Uri(System.IO.Path.GetFullPath("../../Resources/icons/printer.png")));
         }
 
         public void UpdateData()
         {
-            throw new NotImplementedException();
+            Instance.Reload();
+        }
+
+        public void ChangeConfigWidget<T>()
+        {
+            foreach (IConfigWidget widget in ConfigWidgets)
+                if (typeof(T).Equals(widget.GetType()))
+                    CurrentConfigWidget = widget;
         }
 
         private void exportBarcodeBtn_Click(object sender, RoutedEventArgs e)
@@ -41,14 +87,21 @@ namespace laboratory.widgets
 
         }
 
-        private void scanBarcodeBtn_Click(object sender, RoutedEventArgs e)
+        private async void scanBarcodeBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            MessageErrorString = "Необнаружено устройство для сканирования штрих-кода!";
+            await Task.Delay(5000);
+            MessageErrorString = string.Empty;
         }
 
         private void biomaterialCodeText_KeyDown(object sender, KeyEventArgs e)
         {
-
+            if (e.Key.Equals(Key.Enter))
+            {
+                CurrentConfigWidget = biomaterialsOrderConfigWidget;
+                barcodeImage.Source = new BitmapImage(new Uri(System.IO.Path.GetFullPath("../../Resources/barcode.png")));
+                exportBarcodeBtn.IsEnabled = true;
+            }    
         }
     }
 }

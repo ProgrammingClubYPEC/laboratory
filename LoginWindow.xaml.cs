@@ -1,4 +1,5 @@
 ﻿using laboratory.database;
+using laboratory.interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,15 +19,16 @@ namespace laboratory
     /// <summary>
     /// Логика взаимодействия для LoginWindow.xaml
     /// </summary>
-    public partial class LoginWindow : Window
+    public partial class LoginWindow : Window, IErrorMessage
     {
         private string _messageErrorString = string.Empty;
-        private string MessageErrorString
+
+        public string MessageErrorString
         {
             get { return _messageErrorString; }
-            set 
-            { 
-                _messageErrorString = value; 
+            set
+            {
+                _messageErrorString = value;
                 msgText.Text = _messageErrorString;
             }
         }

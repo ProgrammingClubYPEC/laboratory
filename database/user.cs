@@ -23,6 +23,10 @@ namespace laboratory.database
             this.issued_invoices = new HashSet<issued_invoices>();
             this.service = new HashSet<service>();
         }
+        public override string ToString()
+        {
+            return $"{surname} {name} {midname}";
+        }
     
         public string login { get; set; }
         public string surname { get; set; }

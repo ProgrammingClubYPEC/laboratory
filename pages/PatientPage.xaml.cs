@@ -25,8 +25,8 @@ namespace laboratory.pages
     /// </summary>
     public partial class PatientPage : Page, IPage, IAction
     {
-        private Page _currentWidget;
-        public Page CurrentWidget
+        private IWidget _currentWidget;
+        public IWidget CurrentWidget
         {
             get { return _currentWidget; }
             set

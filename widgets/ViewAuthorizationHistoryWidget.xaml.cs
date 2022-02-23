@@ -22,9 +22,11 @@ namespace laboratory.widgets
     /// </summary>
     public partial class ViewAuthorizationHistoryWidget : Page, IWidget
     {
-        public Page ParentPage { get; set; }
+        public IPage ParentPage { get; set; }
+        public IConfigWidget CurrentConfigWidget { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public List<IConfigWidget> ConfigWidgets { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public ViewAuthorizationHistoryWidget(user owner, Page parent)
+        public ViewAuthorizationHistoryWidget(user owner, IPage parent)
         {
             InitializeComponent();
             DataContext = owner;
@@ -68,6 +70,11 @@ namespace laboratory.widgets
         private void attemptFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             UpdateData();
+        }
+
+        public void ChangeConfigWidget<T>()
+        {
+            throw new NotImplementedException();
         }
     }
 }

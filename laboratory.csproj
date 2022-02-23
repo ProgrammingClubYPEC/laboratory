@@ -69,6 +69,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CommonWindow.xaml.cs">
+      <DependentUpon>CommonWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="common\ButtonAction.cs" />
     <Compile Include="database\analyzer.cs">
       <DependentUpon>Model.tt</DependentUpon>
@@ -137,6 +140,8 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="interfaces\IAction.cs" />
+    <Compile Include="interfaces\IConfigWidget.cs" />
+    <Compile Include="interfaces\IErrorMessage.cs" />
     <Compile Include="interfaces\IPage.cs" />
     <Compile Include="common\UserConventer.cs" />
     <Compile Include="interfaces\IWidget.cs" />
@@ -151,6 +156,12 @@
     </Compile>
     <Compile Include="pages\PatientPage.xaml.cs">
       <DependentUpon>PatientPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="widgets\config\AddingNewUserConfigWidget.xaml.cs">
+      <DependentUpon>AddingNewUserConfigWidget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="widgets\config\BiomaterialsOrderConfigWidget.xaml.cs">
+      <DependentUpon>BiomaterialsOrderConfigWidget.xaml</DependentUpon>
     </Compile>
     <Compile Include="widgets\ConsumableDataProcessingWidget.xaml.cs">
       <DependentUpon>ConsumableDataProcessingWidget.xaml</DependentUpon>
@@ -179,6 +190,10 @@
     <Compile Include="widgets\ViewReportWidget.xaml.cs">
       <DependentUpon>ViewReportWidget.xaml</DependentUpon>
     </Compile>
+    <Page Include="CommonWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -212,6 +227,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="pages\PatientPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="widgets\config\AddingNewUserConfigWidget.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="widgets\config\BiomaterialsOrderConfigWidget.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -297,6 +320,7 @@
       <DependentUpon>Model.edmx</DependentUpon>
       <LastGenOutput>Model.cs</LastGenOutput>
     </Content>
+    <None Include="Resources\barcode.png" />
     <None Include="Resources\icons\printer.png" />
     <None Include="Resources\icons\barcode.png" />
   </ItemGroup>
