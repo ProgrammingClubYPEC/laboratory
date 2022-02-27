@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0e2db07dffc148cdabac5ff4ee9948cd" Name="Diagram1">
+      <Diagram DiagramId="0e2db07dffc148cdabac5ff4ee9948cd" Name="Diagram1" ZoomLevel="64">
         <EntityTypeShape EntityType="Model.analyzer" Width="1.5" PointX="8.25" PointY="8.125" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.analyzer_job" Width="1.5" PointX="10.5" PointY="8.125" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.check_for_insurance" Width="1.5" PointX="11" PointY="5.5" IsExpanded="true" />
@@ -39,6 +39,8 @@
         <AssociationConnector Association="Model.FK_user_contact_user" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_user_user_role" ManuallyRouted="false" />
         <AssociationConnector Association="Model.service_set" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Model.biomaterials_tube" Width="1.5" PointX="3.375" PointY="0.875" />
+        <AssociationConnector Association="Model.FK_order_biomaterials_tube" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

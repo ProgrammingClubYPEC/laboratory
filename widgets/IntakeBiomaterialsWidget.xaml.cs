@@ -21,7 +21,7 @@ namespace laboratory.widgets
     /// <summary>
     /// Логика взаимодействия для IntakeBiomaterialsWidget.xaml
     /// </summary>
-    public partial class IntakeBiomaterialsWidget : Page, IWidget, IErrorMessage
+    public partial class IntakeBiomaterialsWidget : Page, IWidget, IErrorMessage, IFieldble
     {
         public IPage ParentPage { get; set; }
 
@@ -84,14 +84,12 @@ namespace laboratory.widgets
 
         private void exportBarcodeBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            ShowMessageErrorString("Данный функционал не реализован");
         }
 
-        private async void scanBarcodeBtn_Click(object sender, RoutedEventArgs e)
+        private void scanBarcodeBtn_Click(object sender, RoutedEventArgs e)
         {
-            MessageErrorString = "Необнаружено устройство для сканирования штрих-кода!";
-            await Task.Delay(5000);
-            MessageErrorString = string.Empty;
+            ShowMessageErrorString("Необнаружено устройство для сканирования штрих-кода!");
         }
 
         private void biomaterialCodeText_KeyDown(object sender, KeyEventArgs e)
@@ -102,6 +100,22 @@ namespace laboratory.widgets
                 barcodeImage.Source = new BitmapImage(new Uri(System.IO.Path.GetFullPath("../../Resources/barcode.png")));
                 exportBarcodeBtn.IsEnabled = true;
             }    
+        }
+
+        public async void ShowMessageErrorString(string errorString)
+        {
+            MessageErrorString = errorString;
+            await Task.Delay(5000);
+            MessageErrorString = string.Empty;
+        }
+
+        public void ClearFields()
+        {
+            biomaterialCodeText.Text = String.Empty;
+            CurrentConfigWidget = null;
+            barcodeImage.Source = null;
+            (biomaterialsOrderConfigWidget as IFieldble).ClearFields();
+            (addingNewUserConfigWidget as IFieldble).ClearFields();
         }
     }
 }

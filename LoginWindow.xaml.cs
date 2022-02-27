@@ -19,7 +19,7 @@ namespace laboratory
     /// <summary>
     /// Логика взаимодействия для LoginWindow.xaml
     /// </summary>
-    public partial class LoginWindow : Window, IErrorMessage
+    public partial class LoginWindow : Window, IErrorMessage, IFieldble
     {
         private string _messageErrorString = string.Empty;
 
@@ -47,13 +47,13 @@ namespace laboratory
         {
             if (!Instance.IsLoginValidated(_login))
             {
-                MessageErrorString = "Необходимо заполнить все поля!";
+                ShowMessageErrorString("Необходимо заполнить все поля!");
                 return;
             }
 
             if (saveAuthorizationAttempt(Instance.GetContext().login.Where(p => p.login1 == _login.login1 && p.password == _login.password).ToList().Count() != 1))
             {
-                MessageErrorString = "Не удалось авторизироваться!\nЛогин или пароль не корректны.";
+                ShowMessageErrorString("Не удалось авторизироваться!\nЛогин или пароль не корректны.");
                 return;
             }
 
@@ -62,7 +62,7 @@ namespace laboratory
             window.Owner = this;
 
             if (!(bool)window.ShowDialog())
-                clearWindow();
+                ClearFields();
         }
 
         private bool saveAuthorizationAttempt(bool attempt)
@@ -86,12 +86,6 @@ namespace laboratory
             return attempt;
         }
 
-        private void clearWindow()
-        {
-            loginText.Text = string.Empty;
-            passwordText.Password = string.Empty;
-        }
-
         private void passwordText_PasswordChanged(object sender, RoutedEventArgs e)
         {
             _login.password = passwordText.Password;
@@ -100,6 +94,19 @@ namespace laboratory
         private void loginText_TextChanged(object sender, TextChangedEventArgs e)
         {
             _login.login1 = loginText.Text;
+        }
+
+        public async void ShowMessageErrorString(string errorString)
+        {
+            MessageErrorString = errorString;
+            await Task.Delay(5000);
+            MessageErrorString = string.Empty;
+        }
+
+        public void ClearFields()
+        {
+            loginText.Text = string.Empty;
+            passwordText.Password = string.Empty;
         }
     }
 }

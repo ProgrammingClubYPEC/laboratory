@@ -27,7 +27,6 @@ namespace laboratory.database
         {
             return $"{surname} {name} {midname}";
         }
-    
         public string login { get; set; }
         public string surname { get; set; }
         public string name { get; set; }

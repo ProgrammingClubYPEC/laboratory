@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace laboratory.interfaces
 {
-    public interface IErrorMessage
+    public interface IFieldble
     {
-        string MessageErrorString { get; set; }
-        void ShowMessageErrorString(string errorString);
+        void ClearFields();
     }
 }

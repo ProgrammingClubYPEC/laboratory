@@ -79,6 +79,9 @@
     <Compile Include="database\analyzer_job.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="database\biomaterials_tube.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="database\check_for_insurance.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -142,6 +145,7 @@
     <Compile Include="interfaces\IAction.cs" />
     <Compile Include="interfaces\IConfigWidget.cs" />
     <Compile Include="interfaces\IErrorMessage.cs" />
+    <Compile Include="interfaces\IFieldble.cs" />
     <Compile Include="interfaces\IPage.cs" />
     <Compile Include="common\UserConventer.cs" />
     <Compile Include="interfaces\IWidget.cs" />
@@ -150,6 +154,9 @@
     </Compile>
     <Compile Include="pages\AdminPage.xaml.cs">
       <DependentUpon>AdminPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="pages\config\SelectServiceConfigPage.xaml.cs">
+      <DependentUpon>SelectServiceConfigPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="pages\LaborantPage.xaml.cs">
       <DependentUpon>LaborantPage.xaml</DependentUpon>
@@ -219,6 +226,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="pages\AdminPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="pages\config\SelectServiceConfigPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

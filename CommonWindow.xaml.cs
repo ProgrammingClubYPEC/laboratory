@@ -1,4 +1,5 @@
-﻿using System;
+﻿using laboratory.interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,13 @@ namespace laboratory
     /// </summary>
     public partial class CommonWindow : Window
     {
-        public CommonWindow()
+        public CommonWindow(IPage page)
         {
             InitializeComponent();
+            page.ParentWindow = this;
+            ContentFrame.Content = page;
+            Width = (page as Page).Width;
+            Height = (page as Page).Height;
         }
     }
 }

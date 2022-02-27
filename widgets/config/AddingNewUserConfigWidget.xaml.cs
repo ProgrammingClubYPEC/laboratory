@@ -20,7 +20,7 @@ namespace laboratory.widgets.config
     /// <summary>
     /// Логика взаимодействия для AddingNewUserConfigWidget.xaml
     /// </summary>
-    public partial class AddingNewUserConfigWidget : Page, IConfigWidget
+    public partial class AddingNewUserConfigWidget : Page, IConfigWidget, IFieldble
     {
         public IWidget ParentWidget { get; set; }
 
@@ -39,6 +39,13 @@ namespace laboratory.widgets.config
         private void addPatientBtn_Click(object sender, RoutedEventArgs e)
         {
             ParentWidget.ChangeConfigWidget<BiomaterialsOrderConfigWidget>();
+        }
+
+        public void ClearFields()
+        {
+            surnameText.Text = string.Empty;
+            nameText.Text = string.Empty;
+            midnameText.Text= string.Empty;
         }
     }
 }

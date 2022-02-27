@@ -61,5 +61,6 @@ namespace laboratory.pages
 
         private void ViewReport() => CurrentWidget = viewReportWidget;
         private void InvoiceGeneration() => CurrentWidget = invoiceGenerationWidget;
+
     }
 }

@@ -42,5 +42,6 @@ namespace laboratory.database
         public virtual DbSet<user_contact> user_contact { get; set; }
         public virtual DbSet<user_role> user_role { get; set; }
         public virtual DbSet<issued_invoices> issued_invoices { get; set; }
+        public virtual DbSet<biomaterials_tube> biomaterials_tube { get; set; }
     }
 }

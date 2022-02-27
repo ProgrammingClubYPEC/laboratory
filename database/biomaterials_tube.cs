@@ -12,21 +12,18 @@ namespace laboratory.database
     using System;
     using System.Collections.Generic;
     
-    public partial class order
+    public partial class biomaterials_tube
     {
-        public long order_code { get; set; }
-        public System.DateTime creation_date { get; set; }
-        public string customer_login { get; set; }
-        public long service_code { get; set; }
-        public long order_status_code { get; set; }
-        public long service_status_code { get; set; }
-        public int days_to_complete { get; set; }
-        public long tube_code { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public biomaterials_tube()
+        {
+            this.order = new HashSet<order>();
+        }
     
-        public virtual order_status order_status { get; set; }
-        public virtual service service { get; set; }
-        public virtual service_status service_status { get; set; }
-        public virtual user user { get; set; }
-        public virtual biomaterials_tube biomaterials_tube { get; set; }
+        public long tube_code { get; set; }
+        public string name { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<order> order { get; set; }
     }
 }

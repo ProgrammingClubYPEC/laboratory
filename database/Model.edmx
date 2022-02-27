@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Хранилище Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="analyzer">
           <Key>
             <PropertyRef Name="analyzer_code" />
@@ -21,6 +21,13 @@
           <Property Name="datetime_receipt_order" Type="datetime" Nullable="false" />
           <Property Name="datetime_service" Type="datetime" Nullable="false" />
           <Property Name="analyzer_code" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="biomaterials_tube">
+          <Key>
+            <PropertyRef Name="tube_code" />
+          </Key>
+          <Property Name="tube_code" Type="bigint" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="300" Nullable="false" />
         </EntityType>
         <EntityType Name="check_for_insurance">
           <Key>
@@ -79,6 +86,7 @@
           <Property Name="creation_date" Type="date" Nullable="false" />
           <Property Name="customer_login" Type="nchar" MaxLength="50" Nullable="false" />
           <Property Name="service_code" Type="bigint" Nullable="false" />
+          <Property Name="tube_code" Type="bigint" Nullable="false" />
           <Property Name="order_status_code" Type="bigint" Nullable="false" />
           <Property Name="service_status_code" Type="bigint" Nullable="false" />
           <Property Name="days_to_complete" Type="int" Nullable="false" />
@@ -247,6 +255,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_order_biomaterials_tube">
+          <End Role="biomaterials_tube" Type="Self.biomaterials_tube" Multiplicity="1" />
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="biomaterials_tube">
+              <PropertyRef Name="tube_code" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="tube_code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_order_order_status">
           <End Role="order_status" Type="Self.order_status" Multiplicity="1" />
           <End Role="order" Type="Self.order" Multiplicity="*" />
@@ -394,6 +414,7 @@
         <EntityContainer Name="Хранилище ModelContainer">
           <EntitySet Name="analyzer" EntityType="Self.analyzer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="analyzer_job" EntityType="Self.analyzer_job" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="biomaterials_tube" EntityType="Self.biomaterials_tube" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="check_for_insurance" EntityType="Self.check_for_insurance" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="insurance_company" EntityType="Self.insurance_company" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="login" EntityType="Self.login" Schema="dbo" store:Type="Tables" />
@@ -446,6 +467,10 @@
             <End Role="login" EntitySet="login" />
             <End Role="login_history" EntitySet="login_history" />
           </AssociationSet>
+          <AssociationSet Name="FK_order_biomaterials_tube" Association="Self.FK_order_biomaterials_tube">
+            <End Role="biomaterials_tube" EntitySet="biomaterials_tube" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
           <AssociationSet Name="FK_order_order_status" Association="Self.FK_order_order_status">
             <End Role="order_status" EntitySet="order_status" />
             <End Role="order" EntitySet="order" />
@@ -495,8 +520,7 @@
             <End Role="user" EntitySet="user" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -576,6 +600,8 @@
           <NavigationProperty Name="service" Relationship="Self.FK_order_service" FromRole="order" ToRole="service" />
           <NavigationProperty Name="service_status" Relationship="Self.FK_order_service_status" FromRole="order" ToRole="service_status" />
           <NavigationProperty Name="user" Relationship="Self.FK_order_user" FromRole="order" ToRole="user" />
+          <Property Name="tube_code" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="biomaterials_tube" Relationship="Model.FK_order_biomaterials_tube" FromRole="order" ToRole="biomaterials_tube" />
         </EntityType>
         <EntityType Name="order_status">
           <Key>
@@ -974,7 +1000,32 @@
             <End Role="service" EntitySet="service" />
             <End Role="user" EntitySet="user" />
           </AssociationSet>
+          <EntitySet Name="biomaterials_tube" EntityType="Model.biomaterials_tube" />
+          <AssociationSet Name="FK_order_biomaterials_tube" Association="Model.FK_order_biomaterials_tube">
+            <End Role="biomaterials_tube" EntitySet="biomaterials_tube" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="biomaterials_tube">
+          <Key>
+            <PropertyRef Name="tube_code" />
+          </Key>
+          <Property Name="tube_code" Type="Int64" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="order" Relationship="Model.FK_order_biomaterials_tube" FromRole="biomaterials_tube" ToRole="order" />
+        </EntityType>
+        <Association Name="FK_order_biomaterials_tube">
+          <End Type="Model.biomaterials_tube" Role="biomaterials_tube" Multiplicity="1" />
+          <End Type="Model.order" Role="order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="biomaterials_tube">
+              <PropertyRef Name="tube_code" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="tube_code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1042,6 +1093,7 @@
           <EntitySetMapping Name="order">
             <EntityTypeMapping TypeName="Model.order">
               <MappingFragment StoreEntitySet="order">
+                <ScalarProperty Name="tube_code" ColumnName="tube_code" />
                 <ScalarProperty Name="order_code" ColumnName="order_code" />
                 <ScalarProperty Name="creation_date" ColumnName="creation_date" />
                 <ScalarProperty Name="customer_login" ColumnName="customer_login" />
@@ -1161,6 +1213,14 @@
               <ScalarProperty Name="login" ColumnName="login" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="biomaterials_tube">
+            <EntityTypeMapping TypeName="Model.biomaterials_tube">
+              <MappingFragment StoreEntitySet="biomaterials_tube">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="tube_code" ColumnName="tube_code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

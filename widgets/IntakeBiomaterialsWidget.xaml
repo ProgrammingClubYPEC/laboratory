@@ -44,7 +44,7 @@
                            Source="/Resources/icons/barcode.png" 
                            />
             </Button>
-            <TextBlock Text="Код пробирки:"
+            <TextBlock Text="Штрих код:"
                        Margin="10, 0"
                        HorizontalAlignment="Center" VerticalAlignment="Center"
                        />
