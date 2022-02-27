@@ -13,6 +13,7 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
+                    <ColumnDefinition Width="10"/>
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -21,36 +22,148 @@
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
-                <TextBlock Text="Фамилия:"
+                <TextBlock Text="Логин:"
                            VerticalAlignment="Center"
                            Grid.Column="0" Grid.Row="0"
+                           />
+                <TextBox x:Name="loginText"
+                         Width="200"
+                         Text="{Binding login1.login1}"
+                         Grid.Column="2" Grid.Row="0"
+                         />
+                <TextBlock Text="Пароль:"
+                           VerticalAlignment="Center"
+                           Grid.Column="0" Grid.Row="1"
+                           Margin="0, 10"
+                           />
+                <TextBox x:Name="passwordText"
+                         Width="200"
+                         Text="{Binding login1.password}"
+                         Grid.Column="2" Grid.Row="1"
+                         Margin="0, 10"
+                         />
+                <TextBlock Text="Фамилия:"
+                           VerticalAlignment="Center"
+                           Grid.Column="0" Grid.Row="2"
                            />
                 <TextBox x:Name="surnameText"
                          Width="200"
                          Text="{Binding surname}"
-                         Grid.Column="1" Grid.Row="0"
+                         Grid.Column="2" Grid.Row="2"
                          />
                 <TextBlock Text="Имя:"
                            VerticalAlignment="Center"
-                           Grid.Column="0" Grid.Row="1"
-                           Margin="0, 10, 20, 10"
+                           Grid.Column="0" Grid.Row="3"
+                           Margin="0, 10"
                            />
                 <TextBox x:Name="nameText"
                          Width="200"
                          Text="{Binding name}"
-                         Grid.Column="1" Grid.Row="1"
-                         Margin="0, 10, 0, 10"
+                         Grid.Column="2" Grid.Row="3"
+                         Margin="0, 10"
                          />
                 <TextBlock Text="Отчество:"
                            VerticalAlignment="Center"
-                           Grid.Column="0" Grid.Row="2"
+                           Grid.Column="0" Grid.Row="4"
                            />
                 <TextBox x:Name="midnameText"
                          Width="200"
                          Text="{Binding midname}"
-                         Grid.Column="1" Grid.Row="2"
+                         Grid.Column="2" Grid.Row="4"
                          />
+                <TextBlock Text="Дата рождения"
+                           VerticalAlignment="Center"
+                           Grid.Column="0" Grid.Row="5"
+                           Margin="0, 10"
+                           />
+                <DatePicker x:Name="bithdayDatepicker"
+                            SelectedDate="{Binding bithday}"
+                            VerticalAlignment="Center"
+                            Grid.Column="2" Grid.Row="5"
+                            Margin="0, 10"
+                            />
+                <TextBlock Text="Серия паспорта:"
+                           VerticalAlignment="Center"
+                           Grid.Column="0" Grid.Row="6"
+                           />
+                <TextBox x:Name="passroptSeriesText"
+                         Width="200"
+                         Text="{Binding user_confidential_data.passport_series}"
+                         Grid.Column="2" Grid.Row="6"
+                         />
+                <TextBlock Text="Номер паспорта:"
+                           VerticalAlignment="Center"
+                           Grid.Column="0" Grid.Row="7"
+                           Margin="0, 10"
+                           />
+                <TextBox x:Name="passroptIdText"
+                         Width="200"
+                         Text="{Binding user_confidential_data.passport_id}"
+                         Grid.Column="2" Grid.Row="7"
+                         Margin="0, 10"
+                         />
+                <TextBlock Text="Телефон:"
+                           VerticalAlignment="Center"
+                           Grid.Column="0" Grid.Row="8"
+                           />
+                <TextBox x:Name="phoneText"
+                         Width="200"
+                         Text="{Binding user_contact.phone}"
+                         Grid.Column="2" Grid.Row="8"
+                         />
+                <TextBlock Text="Адресс электронной почты:"
+                           VerticalAlignment="Center"
+                           Grid.Column="0" Grid.Row="9"
+                           Margin="0, 10"
+                           />
+                <TextBox x:Name="emailText"
+                         Width="200"
+                         Text="{Binding user_contact.email}"
+                         Grid.Column="2" Grid.Row="9"
+                         Margin="0, 10"
+                         />
+                <TextBlock Text="Номер страхового полиса:"
+                           VerticalAlignment="Center"
+                           Grid.Column="0" Grid.Row="10"
+                           />
+                <TextBox x:Name="insurancePolicyNumber"
+                         Width="200"
+                         Text="{Binding user_confidential_data.insurance_policy_number}"
+                         Grid.Column="2" Grid.Row="10"
+                         />
+                
+                <TextBlock Text="Тип страхового полиса:"
+                           VerticalAlignment="Center"
+                           Grid.Column="0" Grid.Row="11"
+                           Margin="0, 10"
+                           />
+                <TextBox x:Name="insurancePolicyTypeText"
+                         Width="200"
+                         Text="{Binding user_confidential_data.insurance_policy_type}"
+                         Grid.Column="2" Grid.Row="11"
+                         Margin="0, 10"
+                         />
+                
+                <TextBlock Text="Страховая компания:"
+                           VerticalAlignment="Center"
+                           Grid.Column="0" Grid.Row="12"
+                           />
+                <TextBox x:Name="insuranceCompanyText"
+                         Width="200"
+                         Text="{Binding user_confidential_data.insurance_company.name}"
+                         Grid.Column="2" Grid.Row="12"
+                         />
+
+
             </Grid>
             <Button x:Name="addPatientBtn"
                     Content="Добавить пользователя"

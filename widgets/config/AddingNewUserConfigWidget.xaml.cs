@@ -31,13 +31,26 @@ namespace laboratory.widgets.config
         {
             InitializeComponent();
             Laborant = owner;
-            NewPatient = new user();
+
+            user_role role = Instance.GetContext().user_role.Where(p => p.code_role.Equals(4)).First();
+            NewPatient = new user()
+            {
+                login1 = new login(),
+                user_confidential_data = new user_confidential_data(),
+                user_contact = new user_contact(),
+                user_role = role,
+                code_role = role.code_role
+            };
             DataContext = NewPatient;
             ParentWidget = parent;
         }
 
         private void addPatientBtn_Click(object sender, RoutedEventArgs e)
         {
+            NewPatient.login = loginText.Text;
+            Instance.GetContext().user.Add(NewPatient);
+            Instance.GetContext().SaveChanges();
+            (ParentWidget as IWidget).UpdateData();
             ParentWidget.ChangeConfigWidget<BiomaterialsOrderConfigWidget>();
         }
 
@@ -46,6 +59,14 @@ namespace laboratory.widgets.config
             surnameText.Text = string.Empty;
             nameText.Text = string.Empty;
             midnameText.Text= string.Empty;
+            bithdayDatepicker.SelectedDate = null;
+            passroptSeriesText.Text = string.Empty;
+            passroptIdText.Text = string.Empty;
+            phoneText.Text = string.Empty;
+            emailText.Text = string.Empty;
+            insurancePolicyNumber.Text = string.Empty;
+            insurancePolicyTypeText.Text = string.Empty;
+            insuranceCompanyText.Text = string.Empty;
         }
     }
 }
