@@ -99,6 +99,13 @@
           <Property Name="name" Type="nvarchar" MaxLength="300" Nullable="false" />
           <Property Name="value" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="policy_type">
+          <Key>
+            <PropertyRef Name="policy_code" />
+          </Key>
+          <Property Name="policy_code" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="300" Nullable="false" />
+        </EntityType>
         <EntityType Name="service">
           <Key>
             <PropertyRef Name="service_code" />
@@ -165,7 +172,7 @@
           <Property Name="passport_series" Type="int" Nullable="false" />
           <Property Name="passport_id" Type="int" Nullable="false" />
           <Property Name="insurance_policy_number" Type="nvarchar" MaxLength="300" Nullable="false" />
-          <Property Name="insurance_policy_type" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="insurance_policy_type_code" Type="bigint" Nullable="false" />
           <Property Name="insurance_company_code" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="user_contact">
@@ -363,6 +370,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_user_confidential_data_insurance_company">
+          <End Role="insurance_company" Type="Self.insurance_company" Multiplicity="1" />
+          <End Role="user_confidential_data" Type="Self.user_confidential_data" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="insurance_company">
+              <PropertyRef Name="insurance_company_code" />
+            </Principal>
+            <Dependent Role="user_confidential_data">
+              <PropertyRef Name="insurance_company_code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_confidential_data_policy_type">
+          <End Role="policy_type" Type="Self.policy_type" Multiplicity="1" />
+          <End Role="user_confidential_data" Type="Self.user_confidential_data" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="policy_type">
+              <PropertyRef Name="policy_code" />
+            </Principal>
+            <Dependent Role="user_confidential_data">
+              <PropertyRef Name="insurance_policy_type_code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_user_confidential_data_user">
           <End Role="user" Type="Self.user" Multiplicity="1" />
           <End Role="user_confidential_data" Type="Self.user_confidential_data" Multiplicity="0..1" />
@@ -421,6 +452,7 @@
           <EntitySet Name="login_history" EntityType="Self.login_history" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="order" EntityType="Self.order" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="order_status" EntityType="Self.order_status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="policy_type" EntityType="Self.policy_type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="service" EntityType="Self.service" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="service_rendered" EntityType="Self.service_rendered" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="service_status" EntityType="Self.service_status" Schema="dbo" store:Type="Tables" />
@@ -503,6 +535,14 @@
             <End Role="user" EntitySet="user" />
             <End Role="service_set" EntitySet="service_set" />
           </AssociationSet>
+          <AssociationSet Name="FK_user_confidential_data_insurance_company" Association="Self.FK_user_confidential_data_insurance_company">
+            <End Role="insurance_company" EntitySet="insurance_company" />
+            <End Role="user_confidential_data" EntitySet="user_confidential_data" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_confidential_data_policy_type" Association="Self.FK_user_confidential_data_policy_type">
+            <End Role="policy_type" EntitySet="policy_type" />
+            <End Role="user_confidential_data" EntitySet="user_confidential_data" />
+          </AssociationSet>
           <AssociationSet Name="FK_user_confidential_data_user" Association="Self.FK_user_confidential_data_user">
             <End Role="user" EntitySet="user" />
             <End Role="user_confidential_data" EntitySet="user_confidential_data" />
@@ -565,6 +605,7 @@
           <Property Name="payment_account" Type="Int64" Nullable="false" />
           <Property Name="bik" Type="Int64" Nullable="false" />
           <NavigationProperty Name="issued_invoices" Relationship="Self.FK_issued_invoices_insurance_company" FromRole="insurance_company" ToRole="issued_invoices" />
+          <NavigationProperty Name="user_confidential_data" Relationship="Model.FK_user_confidential_data_insurance_company" FromRole="insurance_company" ToRole="user_confidential_data" />
         </EntityType>
         <EntityType Name="login">
           <Key>
@@ -685,6 +726,9 @@
           <Property Name="insurance_policy_type" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="insurance_company_code" Type="Int64" Nullable="false" />
           <NavigationProperty Name="user" Relationship="Self.FK_user_confidential_data_user" FromRole="user_confidential_data" ToRole="user" />
+          <Property Name="insurance_policy_type_code" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="insurance_company" Relationship="Model.FK_user_confidential_data_insurance_company" FromRole="user_confidential_data" ToRole="insurance_company" />
+          <NavigationProperty Name="policy_type" Relationship="Model.FK_user_confidential_data_policy_type" FromRole="user_confidential_data" ToRole="policy_type" />
         </EntityType>
         <EntityType Name="user_contact">
           <Key>
@@ -1005,6 +1049,15 @@
             <End Role="biomaterials_tube" EntitySet="biomaterials_tube" />
             <End Role="order" EntitySet="order" />
           </AssociationSet>
+          <EntitySet Name="policy_type" EntityType="Model.policy_type" />
+          <AssociationSet Name="FK_user_confidential_data_insurance_company" Association="Model.FK_user_confidential_data_insurance_company">
+            <End Role="insurance_company" EntitySet="insurance_company" />
+            <End Role="user_confidential_data" EntitySet="user_confidential_data" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_confidential_data_policy_type" Association="Model.FK_user_confidential_data_policy_type">
+            <End Role="policy_type" EntitySet="policy_type" />
+            <End Role="user_confidential_data" EntitySet="user_confidential_data" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="biomaterials_tube">
           <Key>
@@ -1023,6 +1076,38 @@
             </Principal>
             <Dependent Role="order">
               <PropertyRef Name="tube_code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="policy_type">
+          <Key>
+            <PropertyRef Name="policy_code" />
+          </Key>
+          <Property Name="policy_code" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="user_confidential_data" Relationship="Model.FK_user_confidential_data_policy_type" FromRole="policy_type" ToRole="user_confidential_data" />
+        </EntityType>
+        <Association Name="FK_user_confidential_data_insurance_company">
+          <End Type="Model.insurance_company" Role="insurance_company" Multiplicity="1" />
+          <End Type="Model.user_confidential_data" Role="user_confidential_data" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="insurance_company">
+              <PropertyRef Name="insurance_company_code" />
+            </Principal>
+            <Dependent Role="user_confidential_data">
+              <PropertyRef Name="insurance_company_code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_confidential_data_policy_type">
+          <End Type="Model.policy_type" Role="policy_type" Multiplicity="1" />
+          <End Type="Model.user_confidential_data" Role="user_confidential_data" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="policy_type">
+              <PropertyRef Name="policy_code" />
+            </Principal>
+            <Dependent Role="user_confidential_data">
+              <PropertyRef Name="insurance_policy_type_code" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1169,11 +1254,11 @@
           <EntitySetMapping Name="user_confidential_data">
             <EntityTypeMapping TypeName="Model.user_confidential_data">
               <MappingFragment StoreEntitySet="user_confidential_data">
+                <ScalarProperty Name="insurance_policy_type_code" ColumnName="insurance_policy_type_code" />
                 <ScalarProperty Name="login" ColumnName="login" />
                 <ScalarProperty Name="passport_series" ColumnName="passport_series" />
                 <ScalarProperty Name="passport_id" ColumnName="passport_id" />
                 <ScalarProperty Name="insurance_policy_number" ColumnName="insurance_policy_number" />
-                <ScalarProperty Name="insurance_policy_type" ColumnName="insurance_policy_type" />
                 <ScalarProperty Name="insurance_company_code" ColumnName="insurance_company_code" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1218,6 +1303,14 @@
               <MappingFragment StoreEntitySet="biomaterials_tube">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="tube_code" ColumnName="tube_code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="policy_type">
+            <EntityTypeMapping TypeName="Model.policy_type">
+              <MappingFragment StoreEntitySet="policy_type">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="policy_code" ColumnName="policy_code" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

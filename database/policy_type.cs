@@ -12,24 +12,17 @@ namespace laboratory.database
     using System;
     using System.Collections.Generic;
     
-    public partial class insurance_company
+    public partial class policy_type
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public insurance_company()
+        public policy_type()
         {
-            this.issued_invoices = new HashSet<issued_invoices>();
             this.user_confidential_data = new HashSet<user_confidential_data>();
         }
     
-        public long insurance_company_code { get; set; }
+        public long policy_code { get; set; }
         public string name { get; set; }
-        public string address { get; set; }
-        public long inn { get; set; }
-        public long payment_account { get; set; }
-        public long bik { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<issued_invoices> issued_invoices { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<user_confidential_data> user_confidential_data { get; set; }
     }

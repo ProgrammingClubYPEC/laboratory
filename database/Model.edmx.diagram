@@ -41,6 +41,9 @@
         <AssociationConnector Association="Model.service_set" ManuallyRouted="false" />
         <EntityTypeShape EntityType="Model.biomaterials_tube" Width="1.5" PointX="3.375" PointY="0.875" />
         <AssociationConnector Association="Model.FK_order_biomaterials_tube" />
+        <EntityTypeShape EntityType="Model.policy_type" Width="1.5" PointX="0.75" PointY="3.875" />
+        <AssociationConnector Association="Model.FK_user_confidential_data_insurance_company" />
+        <AssociationConnector Association="Model.FK_user_confidential_data_policy_type" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
