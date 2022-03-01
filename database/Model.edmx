@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Хранилище Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="analyzer">
           <Key>
             <PropertyRef Name="analyzer_code" />
@@ -85,6 +85,7 @@
           <Property Name="order_code" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="creation_date" Type="date" Nullable="false" />
           <Property Name="customer_login" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="employeer_login" Type="nchar" MaxLength="50" Nullable="false" />
           <Property Name="service_code" Type="bigint" Nullable="false" />
           <Property Name="tube_code" Type="bigint" Nullable="false" />
           <Property Name="order_status_code" Type="bigint" Nullable="false" />
@@ -322,6 +323,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_order_user1">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="login" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="employeer_login" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_service_rendered_analyzer">
           <End Role="analyzer" Type="Self.analyzer" Multiplicity="1" />
           <End Role="service_rendered" Type="Self.service_rendered" Multiplicity="*" />
@@ -519,6 +532,10 @@
             <End Role="user" EntitySet="user" />
             <End Role="order" EntitySet="order" />
           </AssociationSet>
+          <AssociationSet Name="FK_order_user1" Association="Self.FK_order_user1">
+            <End Role="user" EntitySet="user" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
           <AssociationSet Name="FK_service_rendered_analyzer" Association="Self.FK_service_rendered_analyzer">
             <End Role="analyzer" EntitySet="analyzer" />
             <End Role="service_rendered" EntitySet="service_rendered" />
@@ -560,8 +577,7 @@
             <End Role="user" EntitySet="user" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -652,6 +668,8 @@
           <NavigationProperty Name="service" Relationship="Self.FK_order_service" FromRole="order" ToRole="service" />
           <NavigationProperty Name="service_status" Relationship="Self.FK_order_service_status" FromRole="order" ToRole="service_status" />
           <NavigationProperty Name="user" Relationship="Self.FK_order_user" FromRole="order" ToRole="user" />
+          <Property Name="employeer_login" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="user1" Relationship="Model.FK_order_user1" FromRole="order" ToRole="user" />
         </EntityType>
         <EntityType Name="order_status">
           <Key>
@@ -731,6 +749,7 @@
           <NavigationProperty Name="user_contact" Relationship="Self.FK_user_contact_user" FromRole="user" ToRole="user_contact" />
           <NavigationProperty Name="user_role" Relationship="Self.FK_user_user_role" FromRole="user" ToRole="user_role" />
           <NavigationProperty Name="service" Relationship="Self.service_set" FromRole="user" ToRole="service" />
+          <NavigationProperty Name="order1" Relationship="Model.FK_order_user1" FromRole="user" ToRole="order" />
         </EntityType>
         <EntityType Name="user_confidential_data">
           <Key>
@@ -1110,7 +1129,23 @@
             <End Role="service" EntitySet="service" />
             <End Role="user" EntitySet="user" />
           </AssociationSet>
+          <AssociationSet Name="FK_order_user1" Association="Model.FK_order_user1">
+            <End Role="user" EntitySet="user" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_order_user1">
+          <End Type="Model.user" Role="user" Multiplicity="1" />
+          <End Type="Model.order" Role="order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="login" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="employeer_login" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1186,6 +1221,7 @@
           <EntitySetMapping Name="order">
             <EntityTypeMapping TypeName="Model.order">
               <MappingFragment StoreEntitySet="order">
+                <ScalarProperty Name="employeer_login" ColumnName="employeer_login" />
                 <ScalarProperty Name="order_code" ColumnName="order_code" />
                 <ScalarProperty Name="creation_date" ColumnName="creation_date" />
                 <ScalarProperty Name="customer_login" ColumnName="customer_login" />

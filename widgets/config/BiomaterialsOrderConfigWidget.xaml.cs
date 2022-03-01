@@ -142,11 +142,13 @@ namespace laboratory.widgets.config
                     service_status_code = statusService.status_code,
                     days_to_complete = 3,
                     tube_code = tube.tube_code,
+                    employeer_login = (DataContext as user).login,
 
                     order_status = status,
                     service = service,
                     service_status = statusService,
                     user = Patient,
+                    user1 = DataContext as user,
                     biomaterials_tube = tube
                 });
             }    

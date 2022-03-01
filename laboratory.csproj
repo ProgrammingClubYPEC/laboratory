@@ -175,6 +175,12 @@
     <Compile Include="widgets\ConsumableDataProcessingWidget.xaml.cs">
       <DependentUpon>ConsumableDataProcessingWidget.xaml</DependentUpon>
     </Compile>
+    <Compile Include="widgets\FormedOrdersWidget.xaml.cs">
+      <DependentUpon>FormedOrdersWidget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="widgets\FormedReportsWidget.xaml.cs">
+      <DependentUpon>FormedReportsWidget.xaml</DependentUpon>
+    </Compile>
     <Compile Include="widgets\IntakeBiomaterialsWidget.xaml.cs">
       <DependentUpon>IntakeBiomaterialsWidget.xaml</DependentUpon>
     </Compile>
@@ -252,6 +258,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="widgets\ConsumableDataProcessingWidget.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="widgets\FormedOrdersWidget.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="widgets\FormedReportsWidget.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

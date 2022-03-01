@@ -22,7 +22,7 @@ namespace laboratory.database
         }
         public override string ToString()
         {
-            return $"#{insurance_company_code}: {name}";
+            return name;
         }
         public long insurance_company_code { get; set; }
         public string name { get; set; }

@@ -44,6 +44,8 @@ namespace laboratory.pages
 
         private ReportGenerationWidget reportGenerationWidget;
         private IntakeBiomaterialsWidget biomaterialsWidget;
+        private FormedOrdersWidget formedOrdersWidget;
+        private FormedReportsWidget formedReportWidget;
 
         public LaborantPage(user owner, Window parent)
         {
@@ -54,12 +56,18 @@ namespace laboratory.pages
             Actions = new List<ButtonAction>();
             Actions.Add(new ButtonAction("Формирование отчетов", "business_report.png", ReportGeneration));
             Actions.Add(new ButtonAction("Прием биоматериалов", "document.png", IntakeBiomaterials));
+            Actions.Add(new ButtonAction("Сформированные заказы", "document.png", FormedOrders));
+            Actions.Add(new ButtonAction("Сформированные отчеты", "document.png", FormedReports));
 
             reportGenerationWidget = new ReportGenerationWidget(owner, this);
             biomaterialsWidget = new IntakeBiomaterialsWidget(owner, this);
+            formedOrdersWidget = new FormedOrdersWidget(owner, this);
+            formedReportWidget = new FormedReportsWidget(owner, this);
         }
 
         private void ReportGeneration() => CurrentWidget = reportGenerationWidget;
         private void IntakeBiomaterials() => CurrentWidget = biomaterialsWidget;
+        private void FormedOrders() => CurrentWidget = formedOrdersWidget;
+        private void FormedReports() => CurrentWidget = formedReportWidget;
     }
 }
