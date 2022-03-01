@@ -19,7 +19,10 @@ namespace laboratory.database
         {
             this.user_confidential_data = new HashSet<user_confidential_data>();
         }
-    
+        public override string ToString()
+        {
+            return name;
+        }
         public long policy_code { get; set; }
         public string name { get; set; }
     

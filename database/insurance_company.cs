@@ -20,7 +20,10 @@ namespace laboratory.database
             this.issued_invoices = new HashSet<issued_invoices>();
             this.user_confidential_data = new HashSet<user_confidential_data>();
         }
-    
+        public override string ToString()
+        {
+            return $"#{insurance_company_code}: {name}";
+        }
         public long insurance_company_code { get; set; }
         public string name { get; set; }
         public string address { get; set; }

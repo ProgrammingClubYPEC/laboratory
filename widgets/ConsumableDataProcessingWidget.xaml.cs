@@ -23,8 +23,11 @@ namespace laboratory.widgets
     public partial class ConsumableDataProcessingWidget : Page, IWidget
     {
         public IPage ParentPage { get; set; }
-        public IConfigWidget CurrentConfigWidget { get; set; }
-        public List<IConfigWidget> ConfigWidgets { get; set; }
+        public IWidget CurrentConfigWidget { get; set; }
+        public List<IWidget> ConfigWidgets { get; set; }
+        public IWidget ParentWidget { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IWidget CurrentWidget { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public List<IWidget> Widgets { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public ConsumableDataProcessingWidget(user owner, IPage parent)
         {

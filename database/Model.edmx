@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Хранилище Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Хранилище Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="analyzer">
           <Key>
             <PropertyRef Name="analyzer_code" />
@@ -560,7 +560,8 @@
             <End Role="user" EntitySet="user" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -585,6 +586,14 @@
           <Property Name="analyzer_code" Type="Int64" Nullable="false" />
           <NavigationProperty Name="analyzer" Relationship="Self.FK_analyzer_job_analyzer" FromRole="analyzer_job" ToRole="analyzer" />
         </EntityType>
+        <EntityType Name="biomaterials_tube">
+          <Key>
+            <PropertyRef Name="tube_code" />
+          </Key>
+          <Property Name="tube_code" Type="Int64" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="order" Relationship="Self.FK_order_biomaterials_tube" FromRole="biomaterials_tube" ToRole="order" />
+        </EntityType>
         <EntityType Name="check_for_insurance">
           <Key>
             <PropertyRef Name="check_code" />
@@ -605,7 +614,7 @@
           <Property Name="payment_account" Type="Int64" Nullable="false" />
           <Property Name="bik" Type="Int64" Nullable="false" />
           <NavigationProperty Name="issued_invoices" Relationship="Self.FK_issued_invoices_insurance_company" FromRole="insurance_company" ToRole="issued_invoices" />
-          <NavigationProperty Name="user_confidential_data" Relationship="Model.FK_user_confidential_data_insurance_company" FromRole="insurance_company" ToRole="user_confidential_data" />
+          <NavigationProperty Name="user_confidential_data" Relationship="Self.FK_user_confidential_data_insurance_company" FromRole="insurance_company" ToRole="user_confidential_data" />
         </EntityType>
         <EntityType Name="login">
           <Key>
@@ -634,15 +643,15 @@
           <Property Name="creation_date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="customer_login" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="service_code" Type="Int64" Nullable="false" />
+          <Property Name="tube_code" Type="Int64" Nullable="false" />
           <Property Name="order_status_code" Type="Int64" Nullable="false" />
           <Property Name="service_status_code" Type="Int64" Nullable="false" />
           <Property Name="days_to_complete" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="biomaterials_tube" Relationship="Self.FK_order_biomaterials_tube" FromRole="order" ToRole="biomaterials_tube" />
           <NavigationProperty Name="order_status" Relationship="Self.FK_order_order_status" FromRole="order" ToRole="order_status" />
           <NavigationProperty Name="service" Relationship="Self.FK_order_service" FromRole="order" ToRole="service" />
           <NavigationProperty Name="service_status" Relationship="Self.FK_order_service_status" FromRole="order" ToRole="service_status" />
           <NavigationProperty Name="user" Relationship="Self.FK_order_user" FromRole="order" ToRole="user" />
-          <Property Name="tube_code" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="biomaterials_tube" Relationship="Model.FK_order_biomaterials_tube" FromRole="order" ToRole="biomaterials_tube" />
         </EntityType>
         <EntityType Name="order_status">
           <Key>
@@ -652,6 +661,14 @@
           <Property Name="name" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="value" Type="Int32" Nullable="false" />
           <NavigationProperty Name="order" Relationship="Self.FK_order_order_status" FromRole="order_status" ToRole="order" />
+        </EntityType>
+        <EntityType Name="policy_type">
+          <Key>
+            <PropertyRef Name="policy_code" />
+          </Key>
+          <Property Name="policy_code" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="user_confidential_data" Relationship="Self.FK_user_confidential_data_policy_type" FromRole="policy_type" ToRole="user_confidential_data" />
         </EntityType>
         <EntityType Name="service">
           <Key>
@@ -723,12 +740,11 @@
           <Property Name="passport_series" Type="Int32" Nullable="false" />
           <Property Name="passport_id" Type="Int32" Nullable="false" />
           <Property Name="insurance_policy_number" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="insurance_policy_type" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="insurance_company_code" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="user" Relationship="Self.FK_user_confidential_data_user" FromRole="user_confidential_data" ToRole="user" />
           <Property Name="insurance_policy_type_code" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="insurance_company" Relationship="Model.FK_user_confidential_data_insurance_company" FromRole="user_confidential_data" ToRole="insurance_company" />
-          <NavigationProperty Name="policy_type" Relationship="Model.FK_user_confidential_data_policy_type" FromRole="user_confidential_data" ToRole="policy_type" />
+          <Property Name="insurance_company_code" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="insurance_company" Relationship="Self.FK_user_confidential_data_insurance_company" FromRole="user_confidential_data" ToRole="insurance_company" />
+          <NavigationProperty Name="policy_type" Relationship="Self.FK_user_confidential_data_policy_type" FromRole="user_confidential_data" ToRole="policy_type" />
+          <NavigationProperty Name="user" Relationship="Self.FK_user_confidential_data_user" FromRole="user_confidential_data" ToRole="user" />
         </EntityType>
         <EntityType Name="user_contact">
           <Key>
@@ -798,6 +814,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_order_biomaterials_tube">
+          <End Role="biomaterials_tube" Type="Self.biomaterials_tube" Multiplicity="1" />
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="biomaterials_tube">
+              <PropertyRef Name="tube_code" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="tube_code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_issued_invoices_check_for_insurance">
           <End Role="check_for_insurance" Type="Self.check_for_insurance" Multiplicity="1" />
           <End Role="issued_invoices" Type="Self.issued_invoices" Multiplicity="*" />
@@ -818,6 +846,18 @@
               <PropertyRef Name="insurance_company_code" />
             </Principal>
             <Dependent Role="issued_invoices">
+              <PropertyRef Name="insurance_company_code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_confidential_data_insurance_company">
+          <End Role="insurance_company" Type="Self.insurance_company" Multiplicity="1" />
+          <End Role="user_confidential_data" Type="Self.user_confidential_data" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="insurance_company">
+              <PropertyRef Name="insurance_company_code" />
+            </Principal>
+            <Dependent Role="user_confidential_data">
               <PropertyRef Name="insurance_company_code" />
             </Dependent>
           </ReferentialConstraint>
@@ -894,6 +934,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_user_confidential_data_policy_type">
+          <End Role="policy_type" Type="Self.policy_type" Multiplicity="1" />
+          <End Role="user_confidential_data" Type="Self.user_confidential_data" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="policy_type">
+              <PropertyRef Name="policy_code" />
+            </Principal>
+            <Dependent Role="user_confidential_data">
+              <PropertyRef Name="insurance_policy_type_code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_service_rendered_user">
           <End Role="user" Type="Self.user" Multiplicity="1" />
           <End Role="service_rendered" Type="Self.service_rendered" Multiplicity="*" />
@@ -961,12 +1013,14 @@
         <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="analyzer" EntityType="Self.analyzer" />
           <EntitySet Name="analyzer_job" EntityType="Self.analyzer_job" />
+          <EntitySet Name="biomaterials_tube" EntityType="Self.biomaterials_tube" />
           <EntitySet Name="check_for_insurance" EntityType="Self.check_for_insurance" />
           <EntitySet Name="insurance_company" EntityType="Self.insurance_company" />
           <EntitySet Name="login" EntityType="Self.login" />
           <EntitySet Name="login_history" EntityType="Self.login_history" />
           <EntitySet Name="order" EntityType="Self.order" />
           <EntitySet Name="order_status" EntityType="Self.order_status" />
+          <EntitySet Name="policy_type" EntityType="Self.policy_type" />
           <EntitySet Name="service" EntityType="Self.service" />
           <EntitySet Name="service_rendered" EntityType="Self.service_rendered" />
           <EntitySet Name="service_status" EntityType="Self.service_status" />
@@ -988,6 +1042,10 @@
             <End Role="analyzer" EntitySet="analyzer" />
             <End Role="service_rendered" EntitySet="service_rendered" />
           </AssociationSet>
+          <AssociationSet Name="FK_order_biomaterials_tube" Association="Self.FK_order_biomaterials_tube">
+            <End Role="biomaterials_tube" EntitySet="biomaterials_tube" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
           <AssociationSet Name="FK_issued_invoices_check_for_insurance" Association="Self.FK_issued_invoices_check_for_insurance">
             <End Role="check_for_insurance" EntitySet="check_for_insurance" />
             <End Role="issued_invoices" EntitySet="issued_invoices" />
@@ -995,6 +1053,10 @@
           <AssociationSet Name="FK_issued_invoices_insurance_company" Association="Self.FK_issued_invoices_insurance_company">
             <End Role="insurance_company" EntitySet="insurance_company" />
             <End Role="issued_invoices" EntitySet="issued_invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_confidential_data_insurance_company" Association="Self.FK_user_confidential_data_insurance_company">
+            <End Role="insurance_company" EntitySet="insurance_company" />
+            <End Role="user_confidential_data" EntitySet="user_confidential_data" />
           </AssociationSet>
           <AssociationSet Name="FK_login_history_login1" Association="Self.FK_login_history_login1">
             <End Role="login" EntitySet="login" />
@@ -1020,6 +1082,10 @@
             <End Role="user" EntitySet="user" />
             <End Role="order" EntitySet="order" />
           </AssociationSet>
+          <AssociationSet Name="FK_user_confidential_data_policy_type" Association="Self.FK_user_confidential_data_policy_type">
+            <End Role="policy_type" EntitySet="policy_type" />
+            <End Role="user_confidential_data" EntitySet="user_confidential_data" />
+          </AssociationSet>
           <AssociationSet Name="FK_service_rendered_user" Association="Self.FK_service_rendered_user">
             <End Role="user" EntitySet="user" />
             <End Role="service_rendered" EntitySet="service_rendered" />
@@ -1044,73 +1110,7 @@
             <End Role="service" EntitySet="service" />
             <End Role="user" EntitySet="user" />
           </AssociationSet>
-          <EntitySet Name="biomaterials_tube" EntityType="Model.biomaterials_tube" />
-          <AssociationSet Name="FK_order_biomaterials_tube" Association="Model.FK_order_biomaterials_tube">
-            <End Role="biomaterials_tube" EntitySet="biomaterials_tube" />
-            <End Role="order" EntitySet="order" />
-          </AssociationSet>
-          <EntitySet Name="policy_type" EntityType="Model.policy_type" />
-          <AssociationSet Name="FK_user_confidential_data_insurance_company" Association="Model.FK_user_confidential_data_insurance_company">
-            <End Role="insurance_company" EntitySet="insurance_company" />
-            <End Role="user_confidential_data" EntitySet="user_confidential_data" />
-          </AssociationSet>
-          <AssociationSet Name="FK_user_confidential_data_policy_type" Association="Model.FK_user_confidential_data_policy_type">
-            <End Role="policy_type" EntitySet="policy_type" />
-            <End Role="user_confidential_data" EntitySet="user_confidential_data" />
-          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="biomaterials_tube">
-          <Key>
-            <PropertyRef Name="tube_code" />
-          </Key>
-          <Property Name="tube_code" Type="Int64" Nullable="false" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="order" Relationship="Model.FK_order_biomaterials_tube" FromRole="biomaterials_tube" ToRole="order" />
-        </EntityType>
-        <Association Name="FK_order_biomaterials_tube">
-          <End Type="Model.biomaterials_tube" Role="biomaterials_tube" Multiplicity="1" />
-          <End Type="Model.order" Role="order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="biomaterials_tube">
-              <PropertyRef Name="tube_code" />
-            </Principal>
-            <Dependent Role="order">
-              <PropertyRef Name="tube_code" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="policy_type">
-          <Key>
-            <PropertyRef Name="policy_code" />
-          </Key>
-          <Property Name="policy_code" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="user_confidential_data" Relationship="Model.FK_user_confidential_data_policy_type" FromRole="policy_type" ToRole="user_confidential_data" />
-        </EntityType>
-        <Association Name="FK_user_confidential_data_insurance_company">
-          <End Type="Model.insurance_company" Role="insurance_company" Multiplicity="1" />
-          <End Type="Model.user_confidential_data" Role="user_confidential_data" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="insurance_company">
-              <PropertyRef Name="insurance_company_code" />
-            </Principal>
-            <Dependent Role="user_confidential_data">
-              <PropertyRef Name="insurance_company_code" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_user_confidential_data_policy_type">
-          <End Type="Model.policy_type" Role="policy_type" Multiplicity="1" />
-          <End Type="Model.user_confidential_data" Role="user_confidential_data" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="policy_type">
-              <PropertyRef Name="policy_code" />
-            </Principal>
-            <Dependent Role="user_confidential_data">
-              <PropertyRef Name="insurance_policy_type_code" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1133,6 +1133,14 @@
                 <ScalarProperty Name="datetime_receipt_order" ColumnName="datetime_receipt_order" />
                 <ScalarProperty Name="datetime_service" ColumnName="datetime_service" />
                 <ScalarProperty Name="analyzer_code" ColumnName="analyzer_code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="biomaterials_tube">
+            <EntityTypeMapping TypeName="Model.biomaterials_tube">
+              <MappingFragment StoreEntitySet="biomaterials_tube">
+                <ScalarProperty Name="tube_code" ColumnName="tube_code" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1178,11 +1186,11 @@
           <EntitySetMapping Name="order">
             <EntityTypeMapping TypeName="Model.order">
               <MappingFragment StoreEntitySet="order">
-                <ScalarProperty Name="tube_code" ColumnName="tube_code" />
                 <ScalarProperty Name="order_code" ColumnName="order_code" />
                 <ScalarProperty Name="creation_date" ColumnName="creation_date" />
                 <ScalarProperty Name="customer_login" ColumnName="customer_login" />
                 <ScalarProperty Name="service_code" ColumnName="service_code" />
+                <ScalarProperty Name="tube_code" ColumnName="tube_code" />
                 <ScalarProperty Name="order_status_code" ColumnName="order_status_code" />
                 <ScalarProperty Name="service_status_code" ColumnName="service_status_code" />
                 <ScalarProperty Name="days_to_complete" ColumnName="days_to_complete" />
@@ -1195,6 +1203,14 @@
                 <ScalarProperty Name="status_code" ColumnName="status_code" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="value" ColumnName="value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="policy_type">
+            <EntityTypeMapping TypeName="Model.policy_type">
+              <MappingFragment StoreEntitySet="policy_type">
+                <ScalarProperty Name="policy_code" ColumnName="policy_code" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1254,11 +1270,11 @@
           <EntitySetMapping Name="user_confidential_data">
             <EntityTypeMapping TypeName="Model.user_confidential_data">
               <MappingFragment StoreEntitySet="user_confidential_data">
-                <ScalarProperty Name="insurance_policy_type_code" ColumnName="insurance_policy_type_code" />
                 <ScalarProperty Name="login" ColumnName="login" />
                 <ScalarProperty Name="passport_series" ColumnName="passport_series" />
                 <ScalarProperty Name="passport_id" ColumnName="passport_id" />
                 <ScalarProperty Name="insurance_policy_number" ColumnName="insurance_policy_number" />
+                <ScalarProperty Name="insurance_policy_type_code" ColumnName="insurance_policy_type_code" />
                 <ScalarProperty Name="insurance_company_code" ColumnName="insurance_company_code" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1298,22 +1314,6 @@
               <ScalarProperty Name="login" ColumnName="login" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="biomaterials_tube">
-            <EntityTypeMapping TypeName="Model.biomaterials_tube">
-              <MappingFragment StoreEntitySet="biomaterials_tube">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="tube_code" ColumnName="tube_code" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="policy_type">
-            <EntityTypeMapping TypeName="Model.policy_type">
-              <MappingFragment StoreEntitySet="policy_type">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="policy_code" ColumnName="policy_code" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -25,8 +25,8 @@ namespace laboratory.widgets
     {
         public IPage ParentPage { get; set; }
 
-        private IConfigWidget _configWidget;
-        public IConfigWidget CurrentConfigWidget 
+        private IWidget _configWidget;
+        public IWidget CurrentWidget 
         { 
             get { return _configWidget; }
             set 
@@ -50,7 +50,8 @@ namespace laboratory.widgets
             }
         }
 
-        public List<IConfigWidget> ConfigWidgets { get; set; }
+        public IWidget ParentWidget { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public List<IWidget> Widgets { get; set; }
 
         private BiomaterialsOrderConfigWidget biomaterialsOrderConfigWidget;
         private AddingNewUserConfigWidget addingNewUserConfigWidget;
@@ -63,7 +64,7 @@ namespace laboratory.widgets
 
             biomaterialsOrderConfigWidget = new BiomaterialsOrderConfigWidget(owner, this);
             addingNewUserConfigWidget = new AddingNewUserConfigWidget(owner, this);
-            ConfigWidgets = new List<IConfigWidget> { biomaterialsOrderConfigWidget, addingNewUserConfigWidget };
+            Widgets = new List<IWidget> { biomaterialsOrderConfigWidget, addingNewUserConfigWidget };
 
             exportBarcodeBtn.IsEnabled = false;
             scanBarcodeIcon.Source = new BitmapImage(new Uri(System.IO.Path.GetFullPath("../../Resources/icons/barcode.png")));
@@ -72,14 +73,15 @@ namespace laboratory.widgets
 
         public void UpdateData()
         {
-            Instance.Reload();
+            (biomaterialsOrderConfigWidget as IWidget).UpdateData();
+            (addingNewUserConfigWidget as IWidget).UpdateData();
         }
 
         public void ChangeConfigWidget<T>()
         {
-            foreach (IConfigWidget widget in ConfigWidgets)
+            foreach (IWidget widget in Widgets)
                 if (typeof(T).Equals(widget.GetType()))
-                    CurrentConfigWidget = widget;
+                    CurrentWidget = widget;
         }
 
         private void exportBarcodeBtn_Click(object sender, RoutedEventArgs e)
@@ -96,7 +98,7 @@ namespace laboratory.widgets
         {
             if (e.Key.Equals(Key.Enter))
             {
-                CurrentConfigWidget = biomaterialsOrderConfigWidget;
+                CurrentWidget = biomaterialsOrderConfigWidget;
                 barcodeImage.Source = new BitmapImage(new Uri(System.IO.Path.GetFullPath("../../Resources/barcode.png")));
                 exportBarcodeBtn.IsEnabled = true;
             }    
@@ -112,7 +114,7 @@ namespace laboratory.widgets
         public void ClearFields()
         {
             biomaterialCodeText.Text = String.Empty;
-            CurrentConfigWidget = null;
+            CurrentWidget = null;
             barcodeImage.Source = null;
             (biomaterialsOrderConfigWidget as IFieldble).ClearFields();
             (addingNewUserConfigWidget as IFieldble).ClearFields();

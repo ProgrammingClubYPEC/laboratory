@@ -23,8 +23,9 @@ namespace laboratory.widgets
     public partial class ViewBiomaterialsWidget : Page, IWidget
     {
         public IPage ParentPage { get; set; }
-        public IConfigWidget CurrentConfigWidget { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public List<IConfigWidget> ConfigWidgets { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IWidget ParentWidget { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IWidget CurrentWidget { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public List<IWidget> Widgets { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public ViewBiomaterialsWidget(user owner, IPage parent)
         {

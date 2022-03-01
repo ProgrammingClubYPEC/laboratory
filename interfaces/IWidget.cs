@@ -10,8 +10,9 @@ namespace laboratory.interfaces
     public interface IWidget
     {
         IPage ParentPage { get; set; }
-        IConfigWidget CurrentConfigWidget { get; set; }
-        List<IConfigWidget> ConfigWidgets { get; set; }
+        IWidget ParentWidget { get; set; }
+        IWidget CurrentWidget { get; set; }
+        List<IWidget> Widgets { get; set; }
         void UpdateData();
         void ChangeConfigWidget<T>();
     }

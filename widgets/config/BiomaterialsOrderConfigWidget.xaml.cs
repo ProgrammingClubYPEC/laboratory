@@ -22,12 +22,15 @@ namespace laboratory.widgets.config
     /// <summary>
     /// Логика взаимодействия для BiomaterialsOrderConfigWidget.xaml
     /// </summary>
-    public partial class BiomaterialsOrderConfigWidget : Page, IConfigWidget, IFieldble
+    public partial class BiomaterialsOrderConfigWidget : Page, IWidget, IFieldble
     {
         public IWidget ParentWidget { get; set; }
 
         private user Patient { get; set; }
         private ObservableCollection<service> Services { get; set; }
+        public IPage ParentPage { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IWidget CurrentWidget { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public List<IWidget> Widgets { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public BiomaterialsOrderConfigWidget(user owner, IWidget parent)
         {
@@ -39,9 +42,8 @@ namespace laboratory.widgets.config
 
             removingService.IsEnabled = false;
             patientComboBox.SelectedIndex = -1;
-            patientComboBox.ItemsSource = Instance.GetContext().user.Where(p => p.code_role.Equals(4)).ToList();
-            servicesListBox.ItemsSource = Services;
             tubeCodeText.Text = $"{Instance.GetContext().biomaterials_tube.ToList().Count() + 1}";
+            UpdateData();
         }
 
         private void addingNewPatient_Click(object sender, RoutedEventArgs e)
@@ -172,6 +174,17 @@ namespace laboratory.widgets.config
             servicesListBox.ItemsSource = null;
             tubeCodeText.Text = String.Empty;
             UpdateTotalSum();
+        }
+
+        public void UpdateData()
+        {
+            patientComboBox.ItemsSource = Instance.GetContext().user.Where(p => p.code_role.Equals(4)).ToList();
+            servicesListBox.ItemsSource = Services;
+        }
+
+        public void ChangeConfigWidget<T>()
+        {
+            throw new NotImplementedException();
         }
     }
 }

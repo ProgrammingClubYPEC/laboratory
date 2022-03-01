@@ -118,6 +118,9 @@
     <Compile Include="database\order_status.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="database\policy_type.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="database\service.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -143,7 +146,6 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="interfaces\IAction.cs" />
-    <Compile Include="interfaces\IConfigWidget.cs" />
     <Compile Include="interfaces\IErrorMessage.cs" />
     <Compile Include="interfaces\IFieldble.cs" />
     <Compile Include="interfaces\IPage.cs" />
@@ -321,16 +323,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="database\Model.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model.edmx</DependentUpon>
-      <LastGenOutput>Model.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="database\Model.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model.edmx</DependentUpon>
-      <LastGenOutput>Model.cs</LastGenOutput>
-    </Content>
     <None Include="Resources\barcode.png" />
     <None Include="Resources\icons\printer.png" />
     <None Include="Resources\icons\barcode.png" />
@@ -365,6 +357,18 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="database\Model.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model.edmx</DependentUpon>
+      <LastGenOutput>Model.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="database\Model.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model.edmx</DependentUpon>
+      <LastGenOutput>Model.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -18,15 +18,15 @@ namespace laboratory.database
         public System.DateTime creation_date { get; set; }
         public string customer_login { get; set; }
         public long service_code { get; set; }
+        public long tube_code { get; set; }
         public long order_status_code { get; set; }
         public long service_status_code { get; set; }
         public int days_to_complete { get; set; }
-        public long tube_code { get; set; }
     
+        public virtual biomaterials_tube biomaterials_tube { get; set; }
         public virtual order_status order_status { get; set; }
         public virtual service service { get; set; }
         public virtual service_status service_status { get; set; }
         public virtual user user { get; set; }
-        public virtual biomaterials_tube biomaterials_tube { get; set; }
     }
 }
