@@ -1,4 +1,5 @@
-﻿using laboratory.database;
+﻿using laboratory.common;
+using laboratory.database;
 using laboratory.interfaces;
 using laboratory.widgets.config;
 using System;
@@ -50,7 +51,7 @@ namespace laboratory.widgets
             }
         }
 
-        public IWidget ParentWidget { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IWidget ParentWidget { get; set; }
         public List<IWidget> Widgets { get; set; }
 
         private BiomaterialsOrderConfigWidget biomaterialsOrderConfigWidget;
@@ -81,12 +82,16 @@ namespace laboratory.widgets
         {
             foreach (IWidget widget in Widgets)
                 if (typeof(T).Equals(widget.GetType()))
+                {
                     CurrentWidget = widget;
+                    CurrentWidget.UpdateData();
+                }
         }
 
         private void exportBarcodeBtn_Click(object sender, RoutedEventArgs e)
         {
-            ShowMessageErrorString("Данный функционал не реализован");
+            GeneratePDF.SaveBarcodePdf(biomaterialCodeText.Text, "../../Resources/barcode.png");
+            ShowMessageErrorString("Документ успешно сохранен в /Resources/pdf/barcode");
         }
 
         private void scanBarcodeBtn_Click(object sender, RoutedEventArgs e)

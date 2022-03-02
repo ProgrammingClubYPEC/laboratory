@@ -9,6 +9,35 @@
       Title="FormedReportsWidget">
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition />
+            <RowDefinition Height="0.1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.1*"/>
+            <ColumnDefinition />
+            <ColumnDefinition Width="0.1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Frame Grid.ColumnSpan="3"
+               Background="#76e383"
+               />
+        <TextBlock Text="Сформированные отчеты"
+                   Grid.ColumnSpan="3"
+                   FontSize="14" FontWeight="Bold"
+                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                   />
+
+        <ListBox x:Name="viewReports"
+                 Grid.Column="1" Grid.Row="1"
+                 >
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </Page>

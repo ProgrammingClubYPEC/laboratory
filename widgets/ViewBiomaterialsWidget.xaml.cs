@@ -23,9 +23,9 @@ namespace laboratory.widgets
     public partial class ViewBiomaterialsWidget : Page, IWidget
     {
         public IPage ParentPage { get; set; }
-        public IWidget ParentWidget { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IWidget CurrentWidget { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public List<IWidget> Widgets { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IWidget ParentWidget { get; set; }
+        public IWidget CurrentWidget { get; set; }
+        public List<IWidget> Widgets { get; set; }
 
         public ViewBiomaterialsWidget(user owner, IPage parent)
         {
@@ -36,12 +36,10 @@ namespace laboratory.widgets
 
         public void UpdateData()
         {
-            throw new NotImplementedException();
         }
 
         public void ChangeConfigWidget<T>()
         {
-            throw new NotImplementedException();
         }
     }
 }

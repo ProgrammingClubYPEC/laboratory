@@ -45,6 +45,15 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Syncfusion.Compression.Base, Version=19.4460.0.54, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>packages\Syncfusion.Compression.Base.19.4.0.54\lib\net46\Syncfusion.Compression.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Licensing, Version=19.4460.0.54, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
+      <HintPath>packages\Syncfusion.Licensing.19.4.0.54\lib\net46\Syncfusion.Licensing.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Pdf.Base, Version=19.4460.0.54, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>packages\Syncfusion.Pdf.Wpf.19.4.0.54\lib\net46\Syncfusion.Pdf.Base.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
@@ -73,6 +82,7 @@
       <DependentUpon>CommonWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="common\ButtonAction.cs" />
+    <Compile Include="common\GeneratePDF.cs" />
     <Compile Include="database\analyzer.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -193,6 +203,9 @@
     <Compile Include="widgets\ReportGenerationWidget.xaml.cs">
       <DependentUpon>ReportGenerationWidget.xaml</DependentUpon>
     </Compile>
+    <Compile Include="widgets\ResearchAnalazerWidget.xaml.cs">
+      <DependentUpon>ResearchAnalazerWidget.xaml</DependentUpon>
+    </Compile>
     <Compile Include="widgets\UserCardWidget.xaml.cs">
       <DependentUpon>UserCardWidget.xaml</DependentUpon>
     </Compile>
@@ -282,6 +295,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="widgets\ReportGenerationWidget.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="widgets\ResearchAnalazerWidget.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

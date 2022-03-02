@@ -26,9 +26,9 @@ namespace laboratory.widgets.config
 
         private user NewPatient { get; set; }
         private user Laborant { get; set; }
-        public IPage ParentPage { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IWidget CurrentWidget { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public List<IWidget> Widgets { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IPage ParentPage { get; set; }
+        public IWidget CurrentWidget { get; set; }
+        public List<IWidget> Widgets { get; set; }
 
         public AddingNewUserConfigWidget(user owner, IWidget parent)
         {
@@ -104,7 +104,6 @@ namespace laboratory.widgets.config
 
         public void ChangeConfigWidget<T>()
         {
-            throw new NotImplementedException();
         }
     }
 }

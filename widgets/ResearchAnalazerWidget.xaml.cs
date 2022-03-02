@@ -18,28 +18,31 @@ using System.Windows.Shapes;
 namespace laboratory.widgets
 {
     /// <summary>
-    /// Логика взаимодействия для LaboratoryNewsWidget.xaml
+    /// Логика взаимодействия для ResearchAnalazerWidget.xaml
     /// </summary>
-    public partial class LaboratoryNewsWidget : Page, IWidget
+    public partial class ResearchAnalazerWidget : Page, IWidget
     {
+        public ResearchAnalazerWidget(user owner, IPage parent)
+        {
+            InitializeComponent();
+            DataContext = owner;
+            ParentPage = parent;
+            UpdateData();
+        }
+
         public IPage ParentPage { get; set; }
         public IWidget ParentWidget { get; set; }
         public IWidget CurrentWidget { get; set; }
         public List<IWidget> Widgets { get; set; }
 
-        public LaboratoryNewsWidget(user owner, IPage parent)
+        public void ChangeConfigWidget<T>()
         {
-            InitializeComponent();
-            DataContext = owner;
-            ParentPage = parent;
+            
         }
 
         public void UpdateData()
         {
-        }
-
-        public void ChangeConfigWidget<T>()
-        {
+            viewAnalazer.ItemsSource = (DataContext as user).analyzer.ToList();
         }
     }
 }

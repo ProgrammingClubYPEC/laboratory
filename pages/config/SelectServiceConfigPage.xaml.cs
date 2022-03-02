@@ -35,7 +35,7 @@ namespace laboratory.pages.config
     public partial class SelectServiceConfigPage : Page, IPage
     {
         public Window ParentWindow { get; set; }
-        public IWidget CurrentWidget { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IWidget CurrentWidget { get; set; }
         public List<service> SelectedServices { get; set; }
         private List<SelectedServiceItem> _selectedServices;
 
@@ -64,5 +64,6 @@ namespace laboratory.pages.config
             SelectedServices = serviceComboBox.ItemsSource.Cast<SelectedServiceItem>().Where(p => p.IsChecked).Select(p => p.Service).ToList();
             ParentWindow.Close();
         }
+
     }
 }
