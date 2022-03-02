@@ -12,13 +12,18 @@ namespace laboratory.database
     using System;
     using System.Collections.Generic;
     
-    public partial class analyzer_job
+    public partial class rendered_type
     {
-        public long job_code { get; set; }
-        public System.DateTime datetime_receipt_order { get; set; }
-        public System.DateTime datetime_service { get; set; }
-        public long analyzer_code { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public rendered_type()
+        {
+            this.rendered = new HashSet<rendered>();
+        }
     
-        public virtual analyzer analyzer { get; set; }
+        public long render_type { get; set; }
+        public string name { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<rendered> rendered { get; set; }
     }
 }

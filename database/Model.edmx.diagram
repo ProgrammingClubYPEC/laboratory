@@ -4,29 +4,28 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="4e712f0fbbd54e0b9d430dbeaafc1ba7" Name="Diagram1">
-        <EntityTypeShape EntityType="Model.analyzer" Width="1.5" PointX="8.25" PointY="10" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.analyzer_job" Width="1.5" PointX="10.5" PointY="10.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.biomaterials_tube" Width="1.5" PointX="6" PointY="16.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.check_for_insurance" Width="1.5" PointX="11" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.insurance_company" Width="1.5" PointX="6" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.login" Width="1.5" PointX="0.75" PointY="11.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.login_history" Width="1.5" PointX="3" PointY="11.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.order" Width="1.5" PointX="8.25" PointY="13.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.order_status" Width="1.5" PointX="6" PointY="18.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.policy_type" Width="1.5" PointX="6" PointY="2.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.service" Width="1.5" PointX="3.75" PointY="8" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.service_rendered" Width="1.5" PointX="10.5" PointY="13.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.service_status" Width="1.5" PointX="6" PointY="21" IsExpanded="true" />
+      <Diagram DiagramId="0396e825d7bf476d95c006bfb7a2e4b1" Name="Diagram1">
+        <EntityTypeShape EntityType="Model.analyzer" Width="1.5" PointX="8.25" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.biomaterials_tube" Width="1.5" PointX="6" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.check_for_insurance" Width="1.5" PointX="9" PointY="23.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.insurance_company" Width="1.5" PointX="9" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.login" Width="1.5" PointX="0.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.login_history" Width="1.5" PointX="3" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.order" Width="1.5" PointX="8.25" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.order_status" Width="1.5" PointX="6" PointY="17.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.policy_type" Width="1.5" PointX="9" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.rendered" Width="1.5" PointX="10.5" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.rendered_type" Width="1.5" PointX="8.25" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.service" Width="1.5" PointX="3.75" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.service_status" Width="1.5" PointX="6" PointY="20.25" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.user" Width="1.5" PointX="6" PointY="10.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.user_confidential_data" Width="1.5" PointX="8.25" PointY="6" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.user_contact" Width="1.5" PointX="8.25" PointY="20.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.user_role" Width="1.5" PointX="3.75" PointY="14.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.issued_invoices" Width="1.5" PointX="13.25" PointY="11.25" IsExpanded="true" />
-        <AssociationConnector Association="Model.FK_analyzer_job_analyzer" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Model.user" Width="1.5" PointX="6" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.user_confidential_data" Width="1.5" PointX="11.25" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.user_contact" Width="1.5" PointX="8.25" PointY="20.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.user_role" Width="1.5" PointX="3.75" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.issued_invoices" Width="1.5" PointX="11.25" PointY="14.5" IsExpanded="true" />
         <AssociationConnector Association="Model.FK_analyzer_user" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.FK_service_rendered_analyzer" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_rendered_analyzer" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_order_biomaterials_tube" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_issued_invoices_check_for_insurance" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_issued_invoices_insurance_company" ManuallyRouted="false" />
@@ -37,14 +36,18 @@
         <AssociationConnector Association="Model.FK_order_service" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_order_service_status" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_order_user" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_order_user1" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_user_confidential_data_policy_type" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.FK_service_rendered_user" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_rendered_laborant" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_rendered_patient" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_rendered_rendered_type" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_issued_invoices_user" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_user_confidential_data_user" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_user_contact_user" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_user_user_role" ManuallyRouted="false" />
         <AssociationConnector Association="Model.service_set" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.FK_order_user1" />
+        <AssociationConnector Association="Model.FK_rendered_service" />
+        <AssociationConnector Association="Model.FK_rendered_order" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

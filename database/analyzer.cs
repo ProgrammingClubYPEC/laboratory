@@ -17,18 +17,15 @@ namespace laboratory.database
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public analyzer()
         {
-            this.analyzer_job = new HashSet<analyzer_job>();
-            this.service_rendered = new HashSet<service_rendered>();
+            this.rendered = new HashSet<rendered>();
         }
     
         public long analyzer_code { get; set; }
         public string name { get; set; }
         public string responsible_employee_login { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<analyzer_job> analyzer_job { get; set; }
         public virtual user user { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<service_rendered> service_rendered { get; set; }
+        public virtual ICollection<rendered> rendered { get; set; }
     }
 }

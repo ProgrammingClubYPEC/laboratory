@@ -19,10 +19,11 @@ namespace laboratory.database
         {
             this.analyzer = new HashSet<analyzer>();
             this.order = new HashSet<order>();
-            this.service_rendered = new HashSet<service_rendered>();
+            this.order1 = new HashSet<order>();
+            this.rendered = new HashSet<rendered>();
+            this.rendered1 = new HashSet<rendered>();
             this.issued_invoices = new HashSet<issued_invoices>();
             this.service = new HashSet<service>();
-            this.order1 = new HashSet<order>();
         }
         public override string ToString()
         {
@@ -41,7 +42,11 @@ namespace laboratory.database
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<order> order { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<service_rendered> service_rendered { get; set; }
+        public virtual ICollection<order> order1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<rendered> rendered { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<rendered> rendered1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<issued_invoices> issued_invoices { get; set; }
         public virtual user_confidential_data user_confidential_data { get; set; }
@@ -49,7 +54,5 @@ namespace laboratory.database
         public virtual user_role user_role { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<service> service { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<order> order1 { get; set; }
     }
 }

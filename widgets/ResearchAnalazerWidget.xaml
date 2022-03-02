@@ -12,6 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition />
+            <RowDefinition />
             <RowDefinition Height="0.1*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -34,10 +35,53 @@
                  >
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel>
-                    </StackPanel>
+                    <Grid Margin="5" MaxHeight="100" MaxWidth="400">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock x:Name="nameAnalazerText"
+                                   Text="{Binding name}"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   />
+
+                        <Button x:Name="analazeBtn"
+                                Tag="{Binding analyzer_code}"
+                                Content="Исследования"
+                                HorizontalAlignment="Center" VerticalAlignment="Center"
+                                Grid.Column="2"
+                                Click="analazeBtn_Click"
+                                />
+                    </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        <DataGrid x:Name="renderedServicesGrid"
+                  Grid.Row="2" Grid.Column="1"
+                  AutoGenerateColumns="False" CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Код услуги" Binding="{Binding service_code}"/>
+                <DataGridTextColumn Header="Услуга" Binding="{Binding service.name}"/>
+                <DataGridTextColumn Header="Дата услуги" Binding="{Binding date_of_service}"/>
+                <DataGridTextColumn Header="Пациент" Binding="{Binding user1}"/>
+                <DataGridTextColumn Header="Анализатор" Binding="{Binding analyzer.name}"/>
+                <DataGridTextColumn Header="Номер заказа" Binding="{Binding order_code}"/>
+                <DataGridTextColumn Header="Результат" Binding="{Binding result}"/>
+                <DataGridTemplateColumn Header="Принять результаты">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button x:Name="acceptResultsBtn"
+                                    Content="Принять" Tag="{Binding render_code}"
+                                    Click="acceptResultsBtn_Click"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Page>

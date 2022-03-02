@@ -19,6 +19,7 @@ namespace laboratory.database
         {
             this.order = new HashSet<order>();
             this.user = new HashSet<user>();
+            this.rendered = new HashSet<rendered>();
         }
     
         public long service_code { get; set; }
@@ -31,5 +32,7 @@ namespace laboratory.database
         public virtual ICollection<order> order { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<user> user { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<rendered> rendered { get; set; }
     }
 }

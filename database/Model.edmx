@@ -13,15 +13,6 @@
           <Property Name="name" Type="nvarchar" MaxLength="300" Nullable="false" />
           <Property Name="responsible_employee_login" Type="nchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <EntityType Name="analyzer_job">
-          <Key>
-            <PropertyRef Name="job_code" />
-          </Key>
-          <Property Name="job_code" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="datetime_receipt_order" Type="datetime" Nullable="false" />
-          <Property Name="datetime_service" Type="datetime" Nullable="false" />
-          <Property Name="analyzer_code" Type="bigint" Nullable="false" />
-        </EntityType>
         <EntityType Name="biomaterials_tube">
           <Key>
             <PropertyRef Name="tube_code" />
@@ -107,6 +98,27 @@
           <Property Name="policy_code" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="300" Nullable="false" />
         </EntityType>
+        <EntityType Name="rendered">
+          <Key>
+            <PropertyRef Name="render_code" />
+          </Key>
+          <Property Name="render_code" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="analyzer_code" Type="bigint" Nullable="false" />
+          <Property Name="emploee_login" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="patient_login" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="render_type" Type="bigint" Nullable="false" />
+          <Property Name="date_of_service" Type="datetime" Nullable="false" />
+          <Property Name="result" Type="int" Nullable="false" />
+          <Property Name="service_code" Type="bigint" Nullable="false" />
+          <Property Name="order_code" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="rendered_type">
+          <Key>
+            <PropertyRef Name="render_type" />
+          </Key>
+          <Property Name="render_type" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="300" Nullable="false" />
+        </EntityType>
         <EntityType Name="service">
           <Key>
             <PropertyRef Name="service_code" />
@@ -116,15 +128,6 @@
           <Property Name="price" Type="money" Nullable="false" />
           <Property Name="deadline" Type="date" />
           <Property Name="mean_deviation" Type="int" />
-        </EntityType>
-        <EntityType Name="service_rendered">
-          <Key>
-            <PropertyRef Name="service_code" />
-          </Key>
-          <Property Name="service_code" Type="bigint" Nullable="false" />
-          <Property Name="date_of_service" Type="date" Nullable="false" />
-          <Property Name="user_login" Type="nchar" MaxLength="50" Nullable="false" />
-          <Property Name="analyzer_code" Type="bigint" Nullable="false" />
         </EntityType>
         <!--Ошибки, обнаруженные при создании:
 предупреждение 6002: В таблице или представлении "LaboratoryDataBase.dbo.service_set" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
@@ -191,18 +194,6 @@
           <Property Name="code_role" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="300" Nullable="false" />
         </EntityType>
-        <Association Name="FK_analyzer_job_analyzer">
-          <End Role="analyzer" Type="Self.analyzer" Multiplicity="1" />
-          <End Role="analyzer_job" Type="Self.analyzer_job" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="analyzer">
-              <PropertyRef Name="analyzer_code" />
-            </Principal>
-            <Dependent Role="analyzer_job">
-              <PropertyRef Name="analyzer_code" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_analyzer_user">
           <End Role="user" Type="Self.user" Multiplicity="1" />
           <End Role="analyzer" Type="Self.analyzer" Multiplicity="*" />
@@ -335,27 +326,75 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_service_rendered_analyzer">
+        <Association Name="FK_rendered_analyzer">
           <End Role="analyzer" Type="Self.analyzer" Multiplicity="1" />
-          <End Role="service_rendered" Type="Self.service_rendered" Multiplicity="*" />
+          <End Role="rendered" Type="Self.rendered" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="analyzer">
               <PropertyRef Name="analyzer_code" />
             </Principal>
-            <Dependent Role="service_rendered">
+            <Dependent Role="rendered">
               <PropertyRef Name="analyzer_code" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_service_rendered_user">
+        <Association Name="FK_rendered_laborant">
           <End Role="user" Type="Self.user" Multiplicity="1" />
-          <End Role="service_rendered" Type="Self.service_rendered" Multiplicity="*" />
+          <End Role="rendered" Type="Self.rendered" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="user">
               <PropertyRef Name="login" />
             </Principal>
-            <Dependent Role="service_rendered">
-              <PropertyRef Name="user_login" />
+            <Dependent Role="rendered">
+              <PropertyRef Name="emploee_login" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rendered_order">
+          <End Role="order" Type="Self.order" Multiplicity="1" />
+          <End Role="rendered" Type="Self.rendered" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="order">
+              <PropertyRef Name="order_code" />
+            </Principal>
+            <Dependent Role="rendered">
+              <PropertyRef Name="order_code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rendered_patient">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="rendered" Type="Self.rendered" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="login" />
+            </Principal>
+            <Dependent Role="rendered">
+              <PropertyRef Name="patient_login" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rendered_rendered_type">
+          <End Role="rendered_type" Type="Self.rendered_type" Multiplicity="1" />
+          <End Role="rendered" Type="Self.rendered" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rendered_type">
+              <PropertyRef Name="render_type" />
+            </Principal>
+            <Dependent Role="rendered">
+              <PropertyRef Name="render_type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rendered_service">
+          <End Role="service" Type="Self.service" Multiplicity="1" />
+          <End Role="rendered" Type="Self.rendered" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="service">
+              <PropertyRef Name="service_code" />
+            </Principal>
+            <Dependent Role="rendered">
+              <PropertyRef Name="service_code" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -457,7 +496,6 @@
         </Association>
         <EntityContainer Name="Хранилище ModelContainer">
           <EntitySet Name="analyzer" EntityType="Self.analyzer" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="analyzer_job" EntityType="Self.analyzer_job" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="biomaterials_tube" EntityType="Self.biomaterials_tube" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="check_for_insurance" EntityType="Self.check_for_insurance" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="insurance_company" EntityType="Self.insurance_company" Schema="dbo" store:Type="Tables" />
@@ -466,8 +504,9 @@
           <EntitySet Name="order" EntityType="Self.order" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="order_status" EntityType="Self.order_status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="policy_type" EntityType="Self.policy_type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rendered" EntityType="Self.rendered" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rendered_type" EntityType="Self.rendered_type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="service" EntityType="Self.service" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="service_rendered" EntityType="Self.service_rendered" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="service_status" EntityType="Self.service_status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
@@ -488,10 +527,6 @@
     [service_set].[service_code] AS [service_code]
     FROM [dbo].[service_set] AS [service_set]</DefiningQuery>
           </EntitySet>
-          <AssociationSet Name="FK_analyzer_job_analyzer" Association="Self.FK_analyzer_job_analyzer">
-            <End Role="analyzer" EntitySet="analyzer" />
-            <End Role="analyzer_job" EntitySet="analyzer_job" />
-          </AssociationSet>
           <AssociationSet Name="FK_analyzer_user" Association="Self.FK_analyzer_user">
             <End Role="user" EntitySet="user" />
             <End Role="analyzer" EntitySet="analyzer" />
@@ -536,13 +571,29 @@
             <End Role="user" EntitySet="user" />
             <End Role="order" EntitySet="order" />
           </AssociationSet>
-          <AssociationSet Name="FK_service_rendered_analyzer" Association="Self.FK_service_rendered_analyzer">
+          <AssociationSet Name="FK_rendered_analyzer" Association="Self.FK_rendered_analyzer">
             <End Role="analyzer" EntitySet="analyzer" />
-            <End Role="service_rendered" EntitySet="service_rendered" />
+            <End Role="rendered" EntitySet="rendered" />
           </AssociationSet>
-          <AssociationSet Name="FK_service_rendered_user" Association="Self.FK_service_rendered_user">
+          <AssociationSet Name="FK_rendered_laborant" Association="Self.FK_rendered_laborant">
             <End Role="user" EntitySet="user" />
-            <End Role="service_rendered" EntitySet="service_rendered" />
+            <End Role="rendered" EntitySet="rendered" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rendered_order" Association="Self.FK_rendered_order">
+            <End Role="order" EntitySet="order" />
+            <End Role="rendered" EntitySet="rendered" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rendered_patient" Association="Self.FK_rendered_patient">
+            <End Role="user" EntitySet="user" />
+            <End Role="rendered" EntitySet="rendered" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rendered_rendered_type" Association="Self.FK_rendered_rendered_type">
+            <End Role="rendered_type" EntitySet="rendered_type" />
+            <End Role="rendered" EntitySet="rendered" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rendered_service" Association="Self.FK_rendered_service">
+            <End Role="service" EntitySet="service" />
+            <End Role="rendered" EntitySet="rendered" />
           </AssociationSet>
           <AssociationSet Name="FK_service_set_service" Association="Self.FK_service_set_service">
             <End Role="service" EntitySet="service" />
@@ -588,19 +639,8 @@
           <Property Name="analyzer_code" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="responsible_employee_login" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="analyzer_job" Relationship="Self.FK_analyzer_job_analyzer" FromRole="analyzer" ToRole="analyzer_job" />
           <NavigationProperty Name="user" Relationship="Self.FK_analyzer_user" FromRole="analyzer" ToRole="user" />
-          <NavigationProperty Name="service_rendered" Relationship="Self.FK_service_rendered_analyzer" FromRole="analyzer" ToRole="service_rendered" />
-        </EntityType>
-        <EntityType Name="analyzer_job">
-          <Key>
-            <PropertyRef Name="job_code" />
-          </Key>
-          <Property Name="job_code" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="datetime_receipt_order" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="datetime_service" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="analyzer_code" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="analyzer" Relationship="Self.FK_analyzer_job_analyzer" FromRole="analyzer_job" ToRole="analyzer" />
+          <NavigationProperty Name="rendered" Relationship="Self.FK_rendered_analyzer" FromRole="analyzer" ToRole="rendered" />
         </EntityType>
         <EntityType Name="biomaterials_tube">
           <Key>
@@ -658,6 +698,7 @@
           <Property Name="order_code" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="creation_date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="customer_login" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="employeer_login" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="service_code" Type="Int64" Nullable="false" />
           <Property Name="tube_code" Type="Int64" Nullable="false" />
           <Property Name="order_status_code" Type="Int64" Nullable="false" />
@@ -668,8 +709,8 @@
           <NavigationProperty Name="service" Relationship="Self.FK_order_service" FromRole="order" ToRole="service" />
           <NavigationProperty Name="service_status" Relationship="Self.FK_order_service_status" FromRole="order" ToRole="service_status" />
           <NavigationProperty Name="user" Relationship="Self.FK_order_user" FromRole="order" ToRole="user" />
-          <Property Name="employeer_login" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="user1" Relationship="Model.FK_order_user1" FromRole="order" ToRole="user" />
+          <NavigationProperty Name="user1" Relationship="Self.FK_order_user1" FromRole="order" ToRole="user" />
+          <NavigationProperty Name="rendered" Relationship="Model.FK_rendered_order" FromRole="order" ToRole="rendered" />
         </EntityType>
         <EntityType Name="order_status">
           <Key>
@@ -688,6 +729,34 @@
           <Property Name="name" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="user_confidential_data" Relationship="Self.FK_user_confidential_data_policy_type" FromRole="policy_type" ToRole="user_confidential_data" />
         </EntityType>
+        <EntityType Name="rendered">
+          <Key>
+            <PropertyRef Name="render_code" />
+          </Key>
+          <Property Name="render_code" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="analyzer_code" Type="Int64" Nullable="false" />
+          <Property Name="emploee_login" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="patient_login" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="render_type" Type="Int64" Nullable="false" />
+          <Property Name="date_of_service" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="result" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="analyzer" Relationship="Self.FK_rendered_analyzer" FromRole="rendered" ToRole="analyzer" />
+          <NavigationProperty Name="user" Relationship="Self.FK_rendered_laborant" FromRole="rendered" ToRole="user" />
+          <NavigationProperty Name="user1" Relationship="Self.FK_rendered_patient" FromRole="rendered" ToRole="user" />
+          <NavigationProperty Name="rendered_type" Relationship="Self.FK_rendered_rendered_type" FromRole="rendered" ToRole="rendered_type" />
+          <Property Name="service_code" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="service" Relationship="Model.FK_rendered_service" FromRole="rendered" ToRole="service" />
+          <Property Name="order_code" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="order" Relationship="Model.FK_rendered_order" FromRole="rendered" ToRole="order" />
+        </EntityType>
+        <EntityType Name="rendered_type">
+          <Key>
+            <PropertyRef Name="render_type" />
+          </Key>
+          <Property Name="render_type" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="rendered" Relationship="Self.FK_rendered_rendered_type" FromRole="rendered_type" ToRole="rendered" />
+        </EntityType>
         <EntityType Name="service">
           <Key>
             <PropertyRef Name="service_code" />
@@ -699,17 +768,7 @@
           <Property Name="mean_deviation" Type="Int32" />
           <NavigationProperty Name="order" Relationship="Self.FK_order_service" FromRole="service" ToRole="order" />
           <NavigationProperty Name="user" Relationship="Self.service_set" FromRole="service" ToRole="user" />
-        </EntityType>
-        <EntityType Name="service_rendered">
-          <Key>
-            <PropertyRef Name="service_code" />
-          </Key>
-          <Property Name="service_code" Type="Int64" Nullable="false" />
-          <Property Name="date_of_service" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="user_login" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="analyzer_code" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="analyzer" Relationship="Self.FK_service_rendered_analyzer" FromRole="service_rendered" ToRole="analyzer" />
-          <NavigationProperty Name="user" Relationship="Self.FK_service_rendered_user" FromRole="service_rendered" ToRole="user" />
+          <NavigationProperty Name="rendered" Relationship="Model.FK_rendered_service" FromRole="service" ToRole="rendered" />
         </EntityType>
         <EntityType Name="service_status">
           <Key>
@@ -743,13 +802,14 @@
           <NavigationProperty Name="analyzer" Relationship="Self.FK_analyzer_user" FromRole="user" ToRole="analyzer" />
           <NavigationProperty Name="login1" Relationship="Self.FK_user_login" FromRole="user" ToRole="login" />
           <NavigationProperty Name="order" Relationship="Self.FK_order_user" FromRole="user" ToRole="order" />
-          <NavigationProperty Name="service_rendered" Relationship="Self.FK_service_rendered_user" FromRole="user" ToRole="service_rendered" />
+          <NavigationProperty Name="order1" Relationship="Self.FK_order_user1" FromRole="user" ToRole="order" />
+          <NavigationProperty Name="rendered" Relationship="Self.FK_rendered_laborant" FromRole="user" ToRole="rendered" />
+          <NavigationProperty Name="rendered1" Relationship="Self.FK_rendered_patient" FromRole="user" ToRole="rendered" />
           <NavigationProperty Name="issued_invoices" Relationship="Self.FK_issued_invoices_user" FromRole="user" ToRole="issued_invoices" />
           <NavigationProperty Name="user_confidential_data" Relationship="Self.FK_user_confidential_data_user" FromRole="user" ToRole="user_confidential_data" />
           <NavigationProperty Name="user_contact" Relationship="Self.FK_user_contact_user" FromRole="user" ToRole="user_contact" />
           <NavigationProperty Name="user_role" Relationship="Self.FK_user_user_role" FromRole="user" ToRole="user_role" />
           <NavigationProperty Name="service" Relationship="Self.service_set" FromRole="user" ToRole="service" />
-          <NavigationProperty Name="order1" Relationship="Model.FK_order_user1" FromRole="user" ToRole="order" />
         </EntityType>
         <EntityType Name="user_confidential_data">
           <Key>
@@ -797,18 +857,6 @@
           <NavigationProperty Name="insurance_company" Relationship="Self.FK_issued_invoices_insurance_company" FromRole="issued_invoices" ToRole="insurance_company" />
           <NavigationProperty Name="user" Relationship="Self.FK_issued_invoices_user" FromRole="issued_invoices" ToRole="user" />
         </EntityType>
-        <Association Name="FK_analyzer_job_analyzer">
-          <End Role="analyzer" Type="Self.analyzer" Multiplicity="1" />
-          <End Role="analyzer_job" Type="Self.analyzer_job" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="analyzer">
-              <PropertyRef Name="analyzer_code" />
-            </Principal>
-            <Dependent Role="analyzer_job">
-              <PropertyRef Name="analyzer_code" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_analyzer_user">
           <End Role="user" Type="Self.user" Multiplicity="1" />
           <End Role="analyzer" Type="Self.analyzer" Multiplicity="*" />
@@ -821,14 +869,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_service_rendered_analyzer">
+        <Association Name="FK_rendered_analyzer">
           <End Role="analyzer" Type="Self.analyzer" Multiplicity="1" />
-          <End Role="service_rendered" Type="Self.service_rendered" Multiplicity="*" />
+          <End Role="rendered" Type="Self.rendered" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="analyzer">
               <PropertyRef Name="analyzer_code" />
             </Principal>
-            <Dependent Role="service_rendered">
+            <Dependent Role="rendered">
               <PropertyRef Name="analyzer_code" />
             </Dependent>
           </ReferentialConstraint>
@@ -953,6 +1001,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_order_user1">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="login" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="employeer_login" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_user_confidential_data_policy_type">
           <End Role="policy_type" Type="Self.policy_type" Multiplicity="1" />
           <End Role="user_confidential_data" Type="Self.user_confidential_data" Multiplicity="*" />
@@ -965,15 +1025,39 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_service_rendered_user">
+        <Association Name="FK_rendered_laborant">
           <End Role="user" Type="Self.user" Multiplicity="1" />
-          <End Role="service_rendered" Type="Self.service_rendered" Multiplicity="*" />
+          <End Role="rendered" Type="Self.rendered" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="user">
               <PropertyRef Name="login" />
             </Principal>
-            <Dependent Role="service_rendered">
-              <PropertyRef Name="user_login" />
+            <Dependent Role="rendered">
+              <PropertyRef Name="emploee_login" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rendered_patient">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="rendered" Type="Self.rendered" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="login" />
+            </Principal>
+            <Dependent Role="rendered">
+              <PropertyRef Name="patient_login" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rendered_rendered_type">
+          <End Role="rendered_type" Type="Self.rendered_type" Multiplicity="1" />
+          <End Role="rendered" Type="Self.rendered" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rendered_type">
+              <PropertyRef Name="render_type" />
+            </Principal>
+            <Dependent Role="rendered">
+              <PropertyRef Name="render_type" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1031,7 +1115,6 @@
         </Association>
         <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="analyzer" EntityType="Self.analyzer" />
-          <EntitySet Name="analyzer_job" EntityType="Self.analyzer_job" />
           <EntitySet Name="biomaterials_tube" EntityType="Self.biomaterials_tube" />
           <EntitySet Name="check_for_insurance" EntityType="Self.check_for_insurance" />
           <EntitySet Name="insurance_company" EntityType="Self.insurance_company" />
@@ -1040,8 +1123,9 @@
           <EntitySet Name="order" EntityType="Self.order" />
           <EntitySet Name="order_status" EntityType="Self.order_status" />
           <EntitySet Name="policy_type" EntityType="Self.policy_type" />
+          <EntitySet Name="rendered" EntityType="Self.rendered" />
+          <EntitySet Name="rendered_type" EntityType="Self.rendered_type" />
           <EntitySet Name="service" EntityType="Self.service" />
-          <EntitySet Name="service_rendered" EntityType="Self.service_rendered" />
           <EntitySet Name="service_status" EntityType="Self.service_status" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="user" EntityType="Self.user" />
@@ -1049,17 +1133,13 @@
           <EntitySet Name="user_contact" EntityType="Self.user_contact" />
           <EntitySet Name="user_role" EntityType="Self.user_role" />
           <EntitySet Name="issued_invoices" EntityType="Self.issued_invoices" />
-          <AssociationSet Name="FK_analyzer_job_analyzer" Association="Self.FK_analyzer_job_analyzer">
-            <End Role="analyzer" EntitySet="analyzer" />
-            <End Role="analyzer_job" EntitySet="analyzer_job" />
-          </AssociationSet>
           <AssociationSet Name="FK_analyzer_user" Association="Self.FK_analyzer_user">
             <End Role="user" EntitySet="user" />
             <End Role="analyzer" EntitySet="analyzer" />
           </AssociationSet>
-          <AssociationSet Name="FK_service_rendered_analyzer" Association="Self.FK_service_rendered_analyzer">
+          <AssociationSet Name="FK_rendered_analyzer" Association="Self.FK_rendered_analyzer">
             <End Role="analyzer" EntitySet="analyzer" />
-            <End Role="service_rendered" EntitySet="service_rendered" />
+            <End Role="rendered" EntitySet="rendered" />
           </AssociationSet>
           <AssociationSet Name="FK_order_biomaterials_tube" Association="Self.FK_order_biomaterials_tube">
             <End Role="biomaterials_tube" EntitySet="biomaterials_tube" />
@@ -1101,13 +1181,25 @@
             <End Role="user" EntitySet="user" />
             <End Role="order" EntitySet="order" />
           </AssociationSet>
+          <AssociationSet Name="FK_order_user1" Association="Self.FK_order_user1">
+            <End Role="user" EntitySet="user" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
           <AssociationSet Name="FK_user_confidential_data_policy_type" Association="Self.FK_user_confidential_data_policy_type">
             <End Role="policy_type" EntitySet="policy_type" />
             <End Role="user_confidential_data" EntitySet="user_confidential_data" />
           </AssociationSet>
-          <AssociationSet Name="FK_service_rendered_user" Association="Self.FK_service_rendered_user">
+          <AssociationSet Name="FK_rendered_laborant" Association="Self.FK_rendered_laborant">
             <End Role="user" EntitySet="user" />
-            <End Role="service_rendered" EntitySet="service_rendered" />
+            <End Role="rendered" EntitySet="rendered" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rendered_patient" Association="Self.FK_rendered_patient">
+            <End Role="user" EntitySet="user" />
+            <End Role="rendered" EntitySet="rendered" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rendered_rendered_type" Association="Self.FK_rendered_rendered_type">
+            <End Role="rendered_type" EntitySet="rendered_type" />
+            <End Role="rendered" EntitySet="rendered" />
           </AssociationSet>
           <AssociationSet Name="FK_issued_invoices_user" Association="Self.FK_issued_invoices_user">
             <End Role="user" EntitySet="user" />
@@ -1129,20 +1221,36 @@
             <End Role="service" EntitySet="service" />
             <End Role="user" EntitySet="user" />
           </AssociationSet>
-          <AssociationSet Name="FK_order_user1" Association="Model.FK_order_user1">
-            <End Role="user" EntitySet="user" />
+          <AssociationSet Name="FK_rendered_service" Association="Model.FK_rendered_service">
+            <End Role="service" EntitySet="service" />
+            <End Role="rendered" EntitySet="rendered" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rendered_order" Association="Model.FK_rendered_order">
             <End Role="order" EntitySet="order" />
+            <End Role="rendered" EntitySet="rendered" />
           </AssociationSet>
         </EntityContainer>
-        <Association Name="FK_order_user1">
-          <End Type="Model.user" Role="user" Multiplicity="1" />
-          <End Type="Model.order" Role="order" Multiplicity="*" />
+        <Association Name="FK_rendered_service">
+          <End Type="Model.service" Role="service" Multiplicity="1" />
+          <End Type="Model.rendered" Role="rendered" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="user">
-              <PropertyRef Name="login" />
+            <Principal Role="service">
+              <PropertyRef Name="service_code" />
             </Principal>
-            <Dependent Role="order">
-              <PropertyRef Name="employeer_login" />
+            <Dependent Role="rendered">
+              <PropertyRef Name="service_code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rendered_order">
+          <End Type="Model.order" Role="order" Multiplicity="1" />
+          <End Type="Model.rendered" Role="rendered" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="order">
+              <PropertyRef Name="order_code" />
+            </Principal>
+            <Dependent Role="rendered">
+              <PropertyRef Name="order_code" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1158,16 +1266,6 @@
                 <ScalarProperty Name="analyzer_code" ColumnName="analyzer_code" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="responsible_employee_login" ColumnName="responsible_employee_login" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="analyzer_job">
-            <EntityTypeMapping TypeName="Model.analyzer_job">
-              <MappingFragment StoreEntitySet="analyzer_job">
-                <ScalarProperty Name="job_code" ColumnName="job_code" />
-                <ScalarProperty Name="datetime_receipt_order" ColumnName="datetime_receipt_order" />
-                <ScalarProperty Name="datetime_service" ColumnName="datetime_service" />
-                <ScalarProperty Name="analyzer_code" ColumnName="analyzer_code" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1221,10 +1319,10 @@
           <EntitySetMapping Name="order">
             <EntityTypeMapping TypeName="Model.order">
               <MappingFragment StoreEntitySet="order">
-                <ScalarProperty Name="employeer_login" ColumnName="employeer_login" />
                 <ScalarProperty Name="order_code" ColumnName="order_code" />
                 <ScalarProperty Name="creation_date" ColumnName="creation_date" />
                 <ScalarProperty Name="customer_login" ColumnName="customer_login" />
+                <ScalarProperty Name="employeer_login" ColumnName="employeer_login" />
                 <ScalarProperty Name="service_code" ColumnName="service_code" />
                 <ScalarProperty Name="tube_code" ColumnName="tube_code" />
                 <ScalarProperty Name="order_status_code" ColumnName="order_status_code" />
@@ -1250,6 +1348,29 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="rendered">
+            <EntityTypeMapping TypeName="Model.rendered">
+              <MappingFragment StoreEntitySet="rendered">
+                <ScalarProperty Name="order_code" ColumnName="order_code" />
+                <ScalarProperty Name="service_code" ColumnName="service_code" />
+                <ScalarProperty Name="render_code" ColumnName="render_code" />
+                <ScalarProperty Name="analyzer_code" ColumnName="analyzer_code" />
+                <ScalarProperty Name="emploee_login" ColumnName="emploee_login" />
+                <ScalarProperty Name="patient_login" ColumnName="patient_login" />
+                <ScalarProperty Name="render_type" ColumnName="render_type" />
+                <ScalarProperty Name="date_of_service" ColumnName="date_of_service" />
+                <ScalarProperty Name="result" ColumnName="result" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rendered_type">
+            <EntityTypeMapping TypeName="Model.rendered_type">
+              <MappingFragment StoreEntitySet="rendered_type">
+                <ScalarProperty Name="render_type" ColumnName="render_type" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="service">
             <EntityTypeMapping TypeName="Model.service">
               <MappingFragment StoreEntitySet="service">
@@ -1258,16 +1379,6 @@
                 <ScalarProperty Name="price" ColumnName="price" />
                 <ScalarProperty Name="deadline" ColumnName="deadline" />
                 <ScalarProperty Name="mean_deviation" ColumnName="mean_deviation" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="service_rendered">
-            <EntityTypeMapping TypeName="Model.service_rendered">
-              <MappingFragment StoreEntitySet="service_rendered">
-                <ScalarProperty Name="service_code" ColumnName="service_code" />
-                <ScalarProperty Name="date_of_service" ColumnName="date_of_service" />
-                <ScalarProperty Name="user_login" ColumnName="user_login" />
-                <ScalarProperty Name="analyzer_code" ColumnName="analyzer_code" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

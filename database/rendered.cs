@@ -12,14 +12,23 @@ namespace laboratory.database
     using System;
     using System.Collections.Generic;
     
-    public partial class service_rendered
+    public partial class rendered
     {
-        public long service_code { get; set; }
-        public System.DateTime date_of_service { get; set; }
-        public string user_login { get; set; }
+        public long render_code { get; set; }
         public long analyzer_code { get; set; }
+        public string emploee_login { get; set; }
+        public string patient_login { get; set; }
+        public long render_type { get; set; }
+        public System.DateTime date_of_service { get; set; }
+        public int result { get; set; }
+        public long service_code { get; set; }
+        public long order_code { get; set; }
     
         public virtual analyzer analyzer { get; set; }
         public virtual user user { get; set; }
+        public virtual user user1 { get; set; }
+        public virtual rendered_type rendered_type { get; set; }
+        public virtual service service { get; set; }
+        public virtual order order { get; set; }
     }
 }
