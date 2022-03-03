@@ -170,6 +170,9 @@
     <Compile Include="pages\config\AnalyzeBiomaterialsPage.xaml.cs">
       <DependentUpon>AnalyzeBiomaterialsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="pages\config\SelectPatientConfigPage.xaml.cs">
+      <DependentUpon>SelectPatientConfigPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="pages\config\SelectServiceConfigPage.xaml.cs">
       <DependentUpon>SelectServiceConfigPage.xaml</DependentUpon>
     </Compile>
@@ -254,6 +257,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="pages\config\AnalyzeBiomaterialsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="pages\config\SelectPatientConfigPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

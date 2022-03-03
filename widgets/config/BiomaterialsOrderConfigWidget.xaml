@@ -43,12 +43,20 @@
                           Width="300"
                           IsEditable="True" IsTextSearchEnabled="True" IsTextSearchCaseSensitive="True"
                           SelectionChanged="patientComboBox_SelectionChanged"
+                          VerticalAlignment="Center" HorizontalAlignment="Center"
                           />
-                <Button x:Name="addingNewPatient"
+                <StackPanel Orientation="Vertical">
+                    <Button x:Name="addingNewPatient"
                         Content="Добавить нового пациента"
                         Click="addingNewPatient_Click"
-                        Margin="10, 0, 0, 0"
+                        Margin="10, 0, 0, 5"
                         />
+                    <Button x:Name="editPatient"
+                        Content="Редактирование пациента"
+                        Click="editPatient_Click"
+                        Margin="10, 5, 0, 0"
+                        />
+                </StackPanel>
             </StackPanel>
             <StackPanel Orientation="Horizontal"
                         >

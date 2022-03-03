@@ -3,11 +3,21 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:laboratory.widgets"
+      xmlns:local="clr-namespace:laboratory.widgets" 
+      xmlns:common="clr-namespace:laboratory.common"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="InvoiceGenerationWidget">
-
+    <Page.Resources>
+        <ResourceDictionary>
+            <common:UserConventer x:Key="UserConventer"/>
+            <DataTemplate x:Key="ServicesTemplate">
+                <TextBlock Text="{Binding name}"
+                       Background="#76e383"
+                       />
+            </DataTemplate>
+        </ResourceDictionary>
+    </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -29,5 +39,120 @@
                    HorizontalAlignment="Center" VerticalAlignment="Center"
                    />
 
+        <StackPanel Orientation="Vertical"
+                    Grid.Row="1" Grid.ColumnSpan="3"
+                    Margin="0, 10, 0, 0"
+                    >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Компания:"
+                           HorizontalAlignment="Right" VerticalAlignment="Center"
+                           />
+                <ComboBox x:Name="companyComboBox"
+                          Grid.Column="2" Width="250"
+                          HorizontalAlignment="Left" VerticalAlignment="Center"
+                          />
+                
+                <TextBlock Text="Период оплаты:" Grid.Row="2"
+                           HorizontalAlignment="Right" VerticalAlignment="Center"
+                           />
+                <StackPanel Orientation="Horizontal"
+                            Grid.Row="2" Grid.Column="2"
+                            >
+                    <DatePicker x:Name="startDatePicker"
+                                Margin="0, 0, 50, 0"
+                                HorizontalAlignment="Center" VerticalAlignment="Center"
+                                />
+                    <DatePicker x:Name="endDatePicker"
+                                HorizontalAlignment="Center" VerticalAlignment="Center"
+                                />
+                </StackPanel>
+                <TextBlock Text="Пациенты:" Grid.Row="4"
+                           HorizontalAlignment="Right" VerticalAlignment="Top"
+                           />
+                <StackPanel Grid.Row="4" Grid.Column="2"
+                            HorizontalAlignment="Left"
+                            Orientation="Horizontal"
+                            >
+                    <ListBox x:Name="patientListBox"
+                             Width="250" Height="100"
+                             ItemTemplate="{StaticResource ServicesTemplate}"
+                             SelectionChanged="patientListBox_SelectionChanged"
+                             >
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+                    <StackPanel Orientation="Vertical"
+                                Margin="10, 0, 0, 0"
+                                VerticalAlignment="Center">
+                        <Button x:Name="addPatientBtn"
+                                Content="Добавить"
+                                Margin="0, 0, 0, 10"
+                                Click="addPatientBtn_Click"
+                                />
+                        <Button x:Name="removePatientBtn"
+                                Content="Удалить"
+                                Click="removePatientBtn_Click"
+                                />
+                    </StackPanel>
+                </StackPanel>
+                
+                <TextBlock Text="Стоимость каждой услуги:" Grid.Row="6"
+                           HorizontalAlignment="Right" VerticalAlignment="Top"
+                           />
+                <DataGrid x:Name="serviceGrid"
+                          Grid.Row="6" Grid.Column="2"
+                          Width="250" Height="100"
+                          HorizontalAlignment="Left"
+                          AutoGenerateColumns="False" CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Услуга" Binding="{Binding name}" Width="100"/>
+                        <DataGridTextColumn Header="Стоимость" Binding="{Binding price}" Width="100"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <StackPanel Orientation="Horizontal"
+                            Grid.Row="8" Grid.Column="2" 
+                            HorizontalAlignment="Left" VerticalAlignment="Center"
+                            >
+                    <TextBlock Text="Итоговая стоимость: " />
+                    <TextBlock x:Name="totalSumText" Text="0"/>
+                    <TextBlock Text=" руб."/>
+                </StackPanel>
+                
+                <Button x:Name="addInvoiceBtn" Content="Сформировать счет"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Grid.Row="10" Grid.ColumnSpan="3"
+                        Click="addInvoiceBtn_Click"
+                        />
+
+            </Grid>
+        </StackPanel>
+        <TextBlock x:Name="ErrorMessageText"
+                   Grid.Row="3" Grid.ColumnSpan="3"
+                   HorizontalAlignment="Left" VerticalAlignment="Center"
+                   Margin="30, 0, 0, 0"
+                   />
     </Grid>
 </Page>

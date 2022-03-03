@@ -207,5 +207,10 @@ namespace laboratory.widgets.config
         public void ChangeConfigWidget<T>()
         {
         }
+
+        private void editPatient_Click(object sender, RoutedEventArgs e)
+        {
+            ParentWidget.ChangeConfigWidget<AddingNewUserConfigWidget>();
+        }
     }
 }
